@@ -177,7 +177,7 @@ main {
 .bubble.active {
     border-color: var(--accent);
     background: var(--accent);
-    color: rgb(15, 147, 109);
+    color: rgb(255, 255, 255);
 }
 
 /* Highlight corresponding service-story */
