@@ -9,14 +9,16 @@
 :root {
     --text-primary: #222;
     --text-secondary: #666;
-    --accent: #3465a4;
+    --accent: #0066cc;
     --bg: #fff;
     --border: #e5e5e5;
+    --success: #28a745;
+    --error: #dc3545;
 }
 
 /* Typography */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Source Sans 3', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 18px;
     line-height: 1.6;
     color: var(--text-primary);
@@ -31,6 +33,11 @@ body {
     padding: 1rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
 }
 
 .nav h1 {
@@ -61,8 +68,11 @@ body {
     transition: color 0.2s;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a:focus {
     color: var(--text-primary);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 /* Main Content */
@@ -108,8 +118,10 @@ main {
     transition: border-color 0.2s;
 }
 
-.about-me a:hover {
+.about-me a:hover,
+.about-me a:focus {
     border-bottom-color: var(--accent);
+    outline: none;
 }
 
 /* Circles */
@@ -133,12 +145,15 @@ main {
     font-size: 0.9rem;
     text-decoration: none;
     color: var(--text-secondary);
-    transition: color 0.2s, border-color 0.2s;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
 }
 
-.circle:hover {
+.circle:hover,
+.circle:focus {
     border-color: var(--accent);
     color: var(--accent);
+    transform: translateY(-2px);
+    outline: none;
 }
 
 /* Sections */
@@ -151,6 +166,23 @@ section h2 {
     font-weight: 400;
     margin-bottom: 2rem;
     color: var(--text-primary);
+}
+
+/* About Section */
+.about-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    max-width: 800px;
+}
+
+.about-content p {
+    margin-bottom: 1.5rem;
+}
+
+.about-content strong {
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 /* Services */
@@ -227,6 +259,33 @@ section h2 {
     border-bottom: 1px solid var(--accent);
 }
 
+.contact-content a:hover,
+.contact-content a:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.availability {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-left: 4px solid var(--accent);
+    border-radius: 4px;
+}
+
+.availability h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.availability p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
 /* Feedback/Newsletter */
 .feedback {
     position: fixed;
@@ -245,10 +304,15 @@ section h2 {
     font-size: 0.95rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s;
+    border: none;
+    cursor: pointer;
 }
 
-.feedback-button:hover {
+.feedback-button:hover,
+.feedback-button:focus {
     transform: translateY(-2px);
+    outline: 2px solid white;
+    outline-offset: 2px;
 }
 
 .feedback-button em {
@@ -288,6 +352,11 @@ section h2 {
     font-size: 0.95rem;
 }
 
+.feedback-content input[type="email"]:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
 .feedback-content input[type="submit"] {
     background: var(--accent);
     color: white;
@@ -296,6 +365,13 @@ section h2 {
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.95rem;
+}
+
+.feedback-content input[type="submit"]:hover,
+.feedback-content input[type="submit"]:focus {
+    background: #0052a3;
+    outline: 2px solid white;
+    outline-offset: 2px;
 }
 
 /* Footer */
@@ -322,8 +398,11 @@ footer {
     transition: color 0.2s;
 }
 
-.social a:hover {
+.social a:hover,
+.social a:focus {
     color: var(--text-primary);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 .copyright {
@@ -341,14 +420,39 @@ footer {
     text-decoration: none;
 }
 
-.copyright small a:hover {
+.copyright small a:hover,
+.copyright small a:focus {
     text-decoration: underline;
+    outline: none;
 }
 
 /* Language switch highlight */
 .lang-switch {
     font-weight: 700;
     color: var(--accent);
+}
+
+/* Focus styles for accessibility */
+*:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--accent);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1001;
+}
+
+.skip-link:focus {
+    top: 6px;
 }
 
 /* Mobile Responsive */
@@ -401,6 +505,7 @@ footer {
     .feedback-content {
         width: 280px;
         padding: 1.5rem;
+        right: -20px;
     }
     
     section h2 {

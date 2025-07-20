@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matheus de Mello – AI Consulting</title>
+    <title>Matheus de Mello – AI Consulting for Geospatial and Material Informatics</title>
     <meta name="author" content="Matheus de Mello">
-    <meta name="description" content="PhD physicist & AI engineer offering geospatial and material informatics consulting from Kyoto, Japan.">
+    <meta name="description" content="PhD physicist & AI engineer offering specialized consulting in geospatial data science, material informatics, and AI model development from Kyoto, Japan.">
+    <meta name="keywords" content="AI consulting, geospatial data science, material informatics, machine learning, Japan, Kyoto, PhD physicist">
     <meta property="og:url" content="https://your-domain.com/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Matheus de Mello – AI Consulting">
-    <meta property="og:description" content="PhD physicist & AI engineer offering geospatial and material informatics consulting from Kyoto, Japan.">
+    <meta property="og:title" content="Matheus de Mello – AI Consulting for Geospatial and Material Informatics">
+    <meta property="og:description" content="PhD physicist & AI engineer offering specialized consulting in geospatial data science, material informatics, and AI model development from Kyoto, Japan.">
     <meta property="og:image" content="https://your-domain.com/i/opengraph.jpg">
-    <link rel="preload" href="/fonts/source-sans-3-variable.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Matheus de Mello – AI Consulting">
+    <meta name="twitter:description" content="PhD physicist & AI engineer offering specialized consulting in geospatial data science, material informatics, and AI model development from Kyoto, Japan.">
+    <meta name="twitter:image" content="https://your-domain.com/i/opengraph.jpg">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
     <link rel="stylesheet" href="/css/all.css">
     <link rel="icon" href="/i/favicon.svg">
-    
-
 </head>
 <body>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Navigation -->
     <header class="nav">
         <h1>
@@ -37,12 +45,12 @@
         </nav>
     </header>
 
-    <main>
+    <main id="main-content">
         <!-- Intro Article -->
         <article class="intro">
             <header class="about-me">
                 <picture>
-                    <img src="https://via.placeholder.com/240x240" alt="Matheus de Mello">
+                    <img src="https://via.placeholder.com/240x240" alt="Matheus de Mello - AI Consultant">
                 </picture>
                 <h1>hi, i'm <a href="#about">matheus</a>, a freelance <a href="#services">AI consultant</a> with a PhD in physics, helping Japanese enterprises leverage machine learning for spatial data and materials discovery</h1>
             </header>
@@ -54,6 +62,18 @@
                 <a class="circle" href="#contact">Kyoto, Japan</a>
             </figure>
         </article>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>about me</h2>
+            <div class="about-content">
+                <p>I'm a <strong>PhD physicist and AI engineer</strong> based in Kyoto, Japan, specializing in bridging the gap between academic research and practical business applications. With over a decade of experience in machine learning and data science, I help Japanese companies and research institutions leverage cutting-edge AI technologies.</p>
+                
+                <p>My expertise spans <strong>geospatial data science</strong>, <strong>material informatics</strong>, and <strong>AI model development</strong>, with particular focus on computer vision, predictive modeling, and spatial analysis. I've worked with clients across various industries, from urban planning and infrastructure to materials research and pharmaceutical discovery.</p>
+                
+                <p>I believe in delivering <strong>practical, scalable solutions</strong> that provide immediate business value while building long-term technical capabilities. My approach combines deep technical expertise with an understanding of Japanese business culture and communication preferences.</p>
+            </div>
+        </section>
 
         <!-- Services Section -->
         <section id="services">
@@ -70,6 +90,10 @@
                 <article class="service">
                     <h3>Material Informatics</h3>
                     <p>Accelerating materials discovery using ML. From molecular property prediction to synthesis parameter optimization.</p>
+                </article>
+                <article class="service">
+                    <h3>Custom Python Tools</h3>
+                    <p>Development of specialized software tools and automation scripts for data processing, analysis workflows, and research applications.</p>
                 </article>
             </div>
         </section>
@@ -107,19 +131,24 @@
             <div class="contact-content">
                 <p>I'm available for consulting projects in AI, geospatial analysis, and materials informatics. Based in Kyoto, I work with clients throughout Japan and internationally.</p>
                 <p>Get in touch: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+                
+                <div class="availability">
+                    <h4>Availability & Response Time</h4>
+                    <p>I typically respond to inquiries within 24 hours during business days. For urgent projects, please mention timeline requirements in your initial message. I'm available for both short-term consulting engagements and longer-term partnerships.</p>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- Newsletter/Feedback -->
     <aside class="feedback">
-        <a href="#" class="feedback-button" onclick="toggleNewsletter(event)">
+        <button class="feedback-button" onclick="toggleNewsletter(event)">
             <span>sign up for <em>insights</em></span>
-        </a>
+        </button>
         <div class="feedback-content" id="newsletter">
             <p>Get monthly insights on AI applications in geospatial and materials science.</p>
             <form action="/subscribe" method="post">
-                <input type="email" name="email" placeholder="your email address" required>
+                <input type="email" name="email" placeholder="your email address" required aria-label="Email address for newsletter">
                 <input type="submit" value="subscribe">
             </form>
         </div>
@@ -129,7 +158,7 @@
     <footer>
         <ul class="social">
             <li>
-                <a href="mailto:your.email@example.com" title="Email">
+                <a href="mailto:your.email@example.com" title="Email" aria-label="Send email">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
@@ -137,7 +166,7 @@
                 </a>
             </li>
             <li>
-                <a href="https://linkedin.com/in/your-profile" title="LinkedIn">
+                <a href="https://linkedin.com/in/your-profile" title="LinkedIn" aria-label="LinkedIn profile" target="_blank" rel="noopener">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                         <rect x="2" y="9" width="4" height="12"></rect>
@@ -146,7 +175,7 @@
                 </a>
             </li>
             <li>
-                <a href="https://github.com/your-username" title="GitHub">
+                <a href="https://github.com/your-username" title="GitHub" aria-label="GitHub profile" target="_blank" rel="noopener">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                     </svg>
@@ -171,6 +200,8 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
+                    // Update URL without page jump
+                    history.pushState(null, null, this.getAttribute('href'));
                 }
             });
         });
@@ -180,12 +211,39 @@
             e.preventDefault();
             const newsletter = document.getElementById('newsletter');
             newsletter.classList.toggle('active');
+            
+            // Focus management for accessibility
+            if (newsletter.classList.contains('active')) {
+                const emailInput = newsletter.querySelector('input[type="email"]');
+                if (emailInput) {
+                    setTimeout(() => emailInput.focus(), 100);
+                }
+            }
         }
 
         // Close newsletter when clicking outside
         document.addEventListener('click', function(e) {
             const feedback = document.querySelector('.feedback');
             if (!feedback.contains(e.target)) {
+                document.getElementById('newsletter').classList.remove('active');
+            }
+        });
+
+        // Keyboard navigation for newsletter
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('newsletter').classList.remove('active');
+            }
+        });
+
+        // Form submission handling
+        document.querySelector('.feedback-content form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            if (email) {
+                // Here you would typically send to your newsletter service
+                alert('Thank you for subscribing! You\'ll receive our monthly insights soon.');
+                this.reset();
                 document.getElementById('newsletter').classList.remove('active');
             }
         });
