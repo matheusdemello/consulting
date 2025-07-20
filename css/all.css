@@ -7,12 +7,12 @@
 
 /* CSS Variables */
 :root {
-    --text-primary: #222;
-    --text-secondary: #666;
-    --accent: #0066cc;
-    --bg: #fff;
+    --text-primary: #000000;
+    --text-secondary: #3d3d3d;
+    --accent: #168902;
+    --bg: #ffffff32;
     --border: #e5e5e5;
-    --success: #28a745;
+    --success: #168902;
     --error: #dc3545;
 }
 
@@ -84,7 +84,50 @@ main {
 
 /* Intro Article */
 .intro {
+    position: relative;
     margin: 4rem 0 6rem;
+    padding: 3rem 0;
+}
+
+/* Graph decoration */
+.graph-decoration {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.graph-svg {
+    width: 150px;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(52, 101, 164, 0.1));
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Graph animation on intro hover */
+.intro:hover .graph-svg {
+    opacity: 0.6;
+    transform: scale(1.05);
+}
+
+/* Mobile adjustments for graph */
+@media (max-width: 768px) {
+    .graph-decoration {
+        position: relative;
+        top: auto;
+        right: auto;
+        transform: none;
+        text-align: center;
+        margin-top: 2rem;
+        opacity: 0.3;
+    }
+    
+    .graph-svg {
+        width: 120px;
+    }
 }
 
 .about-me {
@@ -99,8 +142,8 @@ main {
 }
 
 .about-me img {
-    width: 7rem;
-    height: 7rem;
+    width: 9rem;
+    height: 12rem;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -124,20 +167,39 @@ main {
     outline: none;
 }
 
-/* Circles */
-.circles {
+/* Feature Grid - Overlapping Venn Diagram Style */
+.feature-grid {
+    margin-top: 3rem;
+    position: relative;
+    height: 300px;
     display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
+    justify-content: center;
+    align-items: center;
 }
 
-.circle {
+.feature-grid ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.feature-grid li {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.feature-link {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 8rem;
-    height: 8rem;
+    width: 9rem;
+    height: 9rem;
     border-radius: 50%;
     border: 2px solid var(--border);
     text-align: center;
@@ -145,15 +207,84 @@ main {
     font-size: 0.9rem;
     text-decoration: none;
     color: var(--text-secondary);
-    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
 }
 
-.circle:hover,
-.circle:focus {
+/* Position each circle with overlap */
+.feature-grid li:nth-child(1) .feature-link {
+    transform: translate(-60px, -40px);
+}
+
+.feature-grid li:nth-child(2) .feature-link {
+    transform: translate(60px, -40px);
+}
+
+.feature-grid li:nth-child(3) .feature-link {
+    transform: translate(-60px, 40px);
+}
+
+.feature-grid li:nth-child(4) .feature-link {
+    transform: translate(60px, 40px);
+}
+
+/* Hover states - bring to front and highlight */
+.feature-link:hover,
+.feature-link:focus {
     border-color: var(--accent);
     color: var(--accent);
-    transform: translateY(-2px);
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 8px 25px rgba(52, 101, 164, 0.15);
+    background: rgba(255, 255, 255, 0.95);
     outline: none;
+}
+
+/* Dim other circles when one is hovered */
+.feature-grid:hover .feature-link:not(:hover) {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+/* Individual hover effects for each circle */
+.feature-grid li:nth-child(1) .feature-link:hover {
+    transform: translate(-60px, -40px) scale(1.1);
+}
+
+.feature-grid li:nth-child(2) .feature-link:hover {
+    transform: translate(60px, -40px) scale(1.1);
+}
+
+.feature-grid li:nth-child(3) .feature-link:hover {
+    transform: translate(-60px, 40px) scale(1.1);
+}
+
+.feature-grid li:nth-child(4) .feature-link:hover {
+    transform: translate(60px, 40px) scale(1.1);
+}
+
+.feature-link svg {
+    margin-bottom: 0.5rem;
+    color: inherit;
+    transition: transform 0.3s ease;
+}
+
+.feature-link:hover svg {
+    transform: scale(1.1);
+}
+
+.feature-link span {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    font-weight: 500;
+    transition: font-weight 0.3s ease;
+}
+
+.feature-link:hover span {
+    font-weight: 600;
 }
 
 /* Sections */
@@ -481,15 +612,50 @@ footer {
         font-size: 1.5rem;
     }
     
-    .circles {
-        justify-content: center;
+    .feature-grid {
+        height: 250px;
+        margin-top: 2rem;
     }
     
-    .circle {
+    .feature-link {
         width: 7rem;
         height: 7rem;
         font-size: 0.85rem;
         padding: 1.2rem;
+    }
+    
+    /* Adjust overlap for mobile */
+    .feature-grid li:nth-child(1) .feature-link {
+        transform: translate(-40px, -30px);
+    }
+    
+    .feature-grid li:nth-child(2) .feature-link {
+        transform: translate(40px, -30px);
+    }
+    
+    .feature-grid li:nth-child(3) .feature-link {
+        transform: translate(-40px, 30px);
+    }
+    
+    .feature-grid li:nth-child(4) .feature-link {
+        transform: translate(40px, 30px);
+    }
+    
+    /* Mobile hover effects */
+    .feature-grid li:nth-child(1) .feature-link:hover {
+        transform: translate(-40px, -30px) scale(1.1);
+    }
+    
+    .feature-grid li:nth-child(2) .feature-link:hover {
+        transform: translate(40px, -30px) scale(1.1);
+    }
+    
+    .feature-grid li:nth-child(3) .feature-link:hover {
+        transform: translate(-40px, 30px) scale(1.1);
+    }
+    
+    .feature-grid li:nth-child(4) .feature-link:hover {
+        transform: translate(40px, 30px) scale(1.1);
     }
     
     .feedback {
@@ -515,6 +681,255 @@ footer {
     .service h3,
     .project h3 {
         font-size: 1.05rem;
+    }
+
+
+}
+
+/* Projects page styles */
+.projects {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.projects header h1 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 3rem;
+}
+
+.projects header h1 em {
+    font-style: italic;
+    color: var(--accent);
+}
+
+.help {
+    list-style: none;
+    margin: 2rem 0 4rem;
+    padding: 0;
+}
+
+.help li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.help li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.projects h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin: 3rem 0 1.5rem;
+    color: var(--text-primary);
+}
+
+.projects h2.center {
+    text-align: center;
+    margin: 4rem 0 2rem;
+}
+
+.projects h3.inline {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 2.5rem 0 0.5rem;
+    color: var(--accent);
+}
+
+.projects p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.projects p.center {
+    text-align: center;
+}
+
+.projects p.breathe {
+    margin: 3rem 0;
+}
+
+.projects small {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.projects small a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.projects small a:hover {
+    text-decoration: underline;
+}
+
+/* Quote styles */
+.quote {
+    margin: 3rem 0;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.quote.border {
+    border-left: 4px solid var(--accent);
+}
+
+.quote img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.quote blockquote {
+    margin: 0;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.quote blockquote p {
+    margin: 0;
+}
+
+.quote figcaption {
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Services table */
+.wide.services {
+    margin: 3rem 0;
+    overflow-x: auto;
+}
+
+.wide.services table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.wide.services th,
+.wide.services td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.wide.services th {
+    font-weight: 600;
+    color: var(--text-primary);
+    background: rgba(52, 101, 164, 0.05);
+}
+
+.wide.services th a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.wide.services th a:hover {
+    text-decoration: underline;
+}
+
+.wide.services td {
+    color: var(--text-secondary);
+}
+
+/* Brands/Technologies */
+.brands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+.brands img {
+    height: 40px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.brands img:hover {
+    opacity: 1;
+}
+
+/* Button styles */
+.button {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.button:hover,
+.button:focus {
+    background: #0052a3;
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+/* Mobile adjustments for projects page */
+@media (max-width: 768px) {
+    .projects {
+        padding: 0 1rem;
+    }
+    
+    .projects header h1 {
+        font-size: 2rem;
+    }
+    
+    .projects h2 {
+        font-size: 1.5rem;
+    }
+    
+    .projects h3.inline {
+        font-size: 1.2rem;
+    }
+    
+    .wide.services {
+        font-size: 0.8rem;
+    }
+    
+    .wide.services th,
+    .wide.services td {
+        padding: 0.5rem;
+    }
+    
+    .brands {
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .brands img {
+        height: 30px;
     }
 }
 
