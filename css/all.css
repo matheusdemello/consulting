@@ -10,6 +10,7 @@
     --text-primary: #000000;
     --text-secondary: #3d3d3d;
     --accent: #168902;
+    --accent-transparent: rgba(22, 137, 2, 0.1);
     --bg: #ffffff32;
     --border: #e5e5e5;
     --success: #168902;
@@ -89,30 +90,6 @@ main {
     padding: 3rem 0;
 }
 
-/* Graph decoration */
-.graph-decoration {
-    position: absolute;
-    top: 50%;
-    right: 5%;
-    transform: translateY(-50%);
-    opacity: 0.4;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.graph-svg {
-    width: 150px;
-    height: auto;
-    filter: drop-shadow(0 2px 4px rgba(52, 101, 164, 0.1));
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* Graph animation on intro hover */
-.intro:hover .graph-svg {
-    opacity: 0.6;
-    transform: scale(1.05);
-}
-
 /* Mobile adjustments for graph */
 @media (max-width: 768px) {
     .graph-decoration {
@@ -167,129 +144,52 @@ main {
     outline: none;
 }
 
-/* Feature Grid - Overlapping Venn Diagram Style */
-.feature-grid {
-    margin-top: 3rem;
-    position: relative;
-    height: 300px;
+/* Service Bubbles - Simple interactive bubbles */
+.service-bubbles {
     display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 2rem;
+    margin: 3rem 0;
 }
 
-.feature-grid ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.feature-grid li {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.feature-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 9rem;
-    height: 9rem;
+.bubble {
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     border: 2px solid var(--border);
-    text-align: center;
-    padding: 1.5rem;
-    font-size: 0.9rem;
-    text-decoration: none;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
     color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    z-index: 1;
 }
 
-/* Position each circle with overlap */
-.feature-grid li:nth-child(1) .feature-link {
-    transform: translate(-60px, -40px);
-}
-
-.feature-grid li:nth-child(2) .feature-link {
-    transform: translate(60px, -40px);
-}
-
-.feature-grid li:nth-child(3) .feature-link {
-    transform: translate(-60px, 40px);
-}
-
-.feature-grid li:nth-child(4) .feature-link {
-    transform: translate(60px, 40px);
-}
-
-/* Hover states - bring to front and highlight */
-.feature-link:hover,
-.feature-link:focus {
+.bubble:hover {
     border-color: var(--accent);
+    background: var(--accent-transparent);
     color: var(--accent);
     transform: scale(1.1);
-    z-index: 10;
-    box-shadow: 0 8px 25px rgba(52, 101, 164, 0.15);
-    background: rgba(255, 255, 255, 0.95);
-    outline: none;
 }
 
-/* Dim other circles when one is hovered */
-.feature-grid:hover .feature-link:not(:hover) {
-    opacity: 0.4;
-    transform: scale(0.95);
+.bubble.active {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: rgb(15, 147, 109);
 }
 
-/* Individual hover effects for each circle */
-.feature-grid li:nth-child(1) .feature-link:hover {
-    transform: translate(-60px, -40px) scale(1.1);
-}
-
-.feature-grid li:nth-child(2) .feature-link:hover {
-    transform: translate(60px, -40px) scale(1.1);
-}
-
-.feature-grid li:nth-child(3) .feature-link:hover {
-    transform: translate(-60px, 40px) scale(1.1);
-}
-
-.feature-grid li:nth-child(4) .feature-link:hover {
-    transform: translate(60px, 40px) scale(1.1);
-}
-
-.feature-link svg {
-    margin-bottom: 0.5rem;
-    color: inherit;
-    transition: transform 0.3s ease;
-}
-
-.feature-link:hover svg {
-    transform: scale(1.1);
-}
-
-.feature-link span {
-    font-size: 0.85rem;
-    line-height: 1.2;
-    font-weight: 500;
-    transition: font-weight 0.3s ease;
-}
-
-.feature-link:hover span {
-    font-weight: 600;
+/* Highlight corresponding service-story */
+.service-story.highlighted {
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: var(--accent-transparent);
 }
 
 /* Sections */
 section {
-    margin: 4rem 0;
+    margin: 2rem 0;
 }
 
 section h2 {
@@ -316,28 +216,136 @@ section h2 {
     font-weight: 600;
 }
 
-/* Services */
-.service-grid {
+/* Services - Story-driven approach */
+.story-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    padding-bottom: 4rem;
-    border-bottom: 1px solid var(--border);
+    margin-top: 2rem;
 }
 
-.service {
-    padding: 2rem 0;
+.service-story {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    transition: box-shadow 0.2s ease;
 }
 
-.service h3 {
+.service-story:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.story-icon {
+    margin-bottom: 1rem;
+    color: var(--accent);
+}
+
+.service-story h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.service-story p {
+    flex: 1; /* pushes the link to the bottom if content is short */
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.service-story a {
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.service-story a:hover,
+.service-story a:focus {
+    text-decoration: underline;
+    color: var(--text-primary);
+}
+
+/* Project Details - Expandable sections */
+.project-details {
+    display: none;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.project-details.active {
+    display: block;
+}
+
+.project-details h4 {
     font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
 }
 
-.service p {
-    color: var(--text-secondary);
+.project-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.project-card:last-child {
+    margin-bottom: 0;
+}
+
+.project-card h5 {
     font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.project-card p {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-tag {
+    background: var(--accent);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Mobile adjustments for project details */
+@media (max-width: 600px) {
+    .project-card {
+        padding: 1rem;
+    }
+    
+    .tech-stack {
+        gap: 0.4rem;
+    }
+    
+    .tech-tag {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+    }
 }
 
 /* Projects */
@@ -613,49 +621,57 @@ footer {
     }
     
     .feature-grid {
-        height: 250px;
+        max-width: 100%;
         margin-top: 2rem;
     }
     
-    .feature-link {
-        width: 7rem;
-        height: 7rem;
-        font-size: 0.85rem;
-        padding: 1.2rem;
+    .feature-grid ul {
+        aspect-ratio: 1/1;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
     }
     
-    /* Adjust overlap for mobile */
+    .feature-link {
+        width: 6rem;
+        height: 6rem;
+        font-size: 0.8rem;
+        padding: 1rem;
+        margin: -0.5rem;
+    }
+    
+    /* Mobile grid positioning */
     .feature-grid li:nth-child(1) .feature-link {
-        transform: translate(-40px, -30px);
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        justify-self: end;
+        align-self: end;
     }
     
     .feature-grid li:nth-child(2) .feature-link {
-        transform: translate(40px, -30px);
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        justify-self: start;
+        align-self: end;
     }
     
     .feature-grid li:nth-child(3) .feature-link {
-        transform: translate(-40px, 30px);
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        justify-self: end;
+        align-self: start;
     }
     
     .feature-grid li:nth-child(4) .feature-link {
-        transform: translate(40px, 30px);
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        justify-self: start;
+        align-self: start;
     }
     
-    /* Mobile hover effects */
-    .feature-grid li:nth-child(1) .feature-link:hover {
-        transform: translate(-40px, -30px) scale(1.1);
-    }
-    
-    .feature-grid li:nth-child(2) .feature-link:hover {
-        transform: translate(40px, -30px) scale(1.1);
-    }
-    
-    .feature-grid li:nth-child(3) .feature-link:hover {
-        transform: translate(-40px, 30px) scale(1.1);
-    }
-    
-    .feature-grid li:nth-child(4) .feature-link:hover {
-        transform: translate(40px, 30px) scale(1.1);
+    /* Mobile intersection highlight */
+    .feature-grid::before {
+        width: 2rem;
+        height: 2rem;
     }
     
     .feedback {
@@ -678,9 +694,69 @@ footer {
         font-size: 1.3rem;
     }
     
-    .service h3,
+    .story-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .service-story {
+        padding: 1.5rem;
+    }
+    
+    .service-story h3 {
+        font-size: 1.1rem;
+    }
+    
     .project h3 {
         font-size: 1.05rem;
+    }
+    
+    /* Venn Diagram mobile adjustments */
+    .venn-diagram {
+        width: 280px;
+        height: 250px;
+        margin: 2rem auto;
+    }
+    
+    .venn-diagram .circle {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .venn-diagram .circle span {
+        font-size: 0.8rem;
+    }
+    
+    /* Reposition circles for mobile */
+    .venn-diagram .ai  { top:   0;   left:  60px; }
+    .venn-diagram .geo { top:   0;   left: 120px; }
+    .venn-diagram .mat { top:  90px; left:  90px; }
+    
+    /* Adjust intersection labels for mobile */
+    .venn-diagram .label {
+        width: 80px;
+        font-size: 0.75rem;
+    }
+    
+    .venn-diagram .label.ai-geo  { top:  50px; left: 105px; }
+    .venn-diagram .label.ai-mat  { top: 120px; left:  75px; }
+    .venn-diagram .label.geo-mat { top: 120px; left: 135px; }
+    .venn-diagram .label.all     { top:  90px; left: 105px; }
+    
+    .venn-diagram .venn-location {
+        font-size: 0.85rem;
+    }
+    
+    /* Service bubbles mobile adjustments */
+    .service-bubbles {
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+    
+    .bubble {
+        width: 60px;
+        height: 60px;
+        font-size: 0.9rem;
     }
 
 
