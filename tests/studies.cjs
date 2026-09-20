@@ -22,6 +22,13 @@ const { createServer } = require('./serve.cjs');
           await page.keyboard.press('Enter');
           assert.equal(await story.getAttribute('open'), '');
           const figure = story.locator('.case-figure');
+          if (!await figure.count()) {
+            assert.equal(await story.locator('..').locator('#case-robotics-title').count(), 1, 'robotics is the text-only case');
+            await summary.focus();
+            await page.keyboard.press('Enter');
+            assert.equal(await story.getAttribute('open'), null);
+            continue;
+          }
           const radios = figure.locator('input[type=radio]');
           const first = radios.nth(0);
           await first.focus();
