@@ -10,8 +10,10 @@
   const ja = document.documentElement.lang === 'ja';
   const TAU = Math.PI * 2;
   let width = 1, height = 1, frame = 0, last = 0, elapsed = 0;
-  let paused = false, visible = true, particles = [], colors;
-  const pointer = { x: 0, y: 0, tx: 0, ty: 0, energy: 0, active: false, down: false };
+  let paused = false, visible = true, particles = [], drawOrder = [], colors;
+  let entrance = !reduced.matches, entranceTime = 0;
+  try { entrance = entrance && sessionStorage.getItem('consulting-field-intro') !== 'seen'; } catch {}
+  const pointer = { x: 0, y: 0, tx: 0, ty: 0, energy: 0, active: false, down: false, speed: 0, heading: 0 };
   const hash = n => { const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v); };
   function palette() {
     const css = getComputedStyle(document.documentElement);
@@ -31,11 +33,13 @@
     const count = width < 500 ? 2600 : 5400;
     particles = Array.from({length: count}, (_, i) => ({
       u: hash(i + 1), v: hash(i + 407), layer: hash(i + 1907),
-      px: 0, py: 0, vx: 0, vy: 0
+      sx: .08 + hash(i + 2917) * .84, sy: .08 + hash(i + 3907) * .84,
+      px: 0, py: 0, vx: 0, vy: 0, heat: 0, wakeAngle: 0, point: {}, tangent: {}
     }));
+    drawOrder = particles.slice();
   }
   // A continuously folding, three-dimensional field. No object silhouettes or SVG targets.
-  function position(p, time, step = 0) {
+  function position(p, time, step, camera, out) {
     const a = p.u * TAU + time * (.18 + p.layer * .055) + step;
     const b = p.v * TAU + time * .12;
     const tube = .19 + p.layer * .1 + Math.sin(a * 3 - time * .5) * .04;
@@ -44,33 +48,50 @@
     let y = radius * Math.sin(a);
     let z = tube * Math.sin(b) + .23 * Math.sin(a * 2 + time * .24);
     // The volume tilts, while directors travel around it at independent speeds.
-    const tilt = .9 + Math.sin(time * .17) * .3;
-    const turn = -.5 + time * .075;
-    const yy = y * Math.cos(tilt) - z * Math.sin(tilt);
-    const zz = y * Math.sin(tilt) + z * Math.cos(tilt);
-    const xx = x * Math.cos(turn) + zz * Math.sin(turn);
-    z = -x * Math.sin(turn) + zz * Math.cos(turn);
+    const yy = y * camera.ct - z * camera.st;
+    const zz = y * camera.st + z * camera.ct;
+    const xx = x * camera.cr + zz * camera.sr;
+    z = -x * camera.sr + zz * camera.cr;
     const perspective = 2.9 / (2.9 - z);
-    const scale = Math.min(width * .46, height * .49);
-    return { x: width * .5 + xx * scale * perspective, y: height * .5 + yy * scale * perspective, z, perspective };
+    out.x = width * .5 + xx * camera.scale * perspective;
+    out.y = height * .5 + yy * camera.scale * perspective;
+    out.z = z; out.perspective = perspective;
   }
   function render(still = false, dt = 1 / 60) {
     const time = still ? 5 : elapsed;
+    const scatter = !still && entrance ? Math.pow(1 - Math.min(1, entranceTime / 1.2), 3) : 0;
     const smooth = 1 - Math.exp(-dt * 8);
+    const previousX = pointer.x, previousY = pointer.y;
     pointer.x += (pointer.tx - pointer.x) * smooth;
     pointer.y += (pointer.ty - pointer.y) * smooth;
+    const travelX = pointer.x - previousX, travelY = pointer.y - previousY;
+    pointer.speed = pointer.active && !still ? Math.min(1, Math.hypot(travelX, travelY) / (width * dt) * 2.5) : 0;
+    if (pointer.speed > .01) pointer.heading = Math.atan2(travelY, travelX);
     pointer.energy += ((pointer.active && !still ? 1 : 0) - pointer.energy) * smooth;
     ctx.clearRect(0, 0, width, height);
     ctx.lineCap = 'round';
-    const projected = particles.map(p => ({p, point: position(p,time)}));
-    projected.sort((a,b) => a.point.z - b.point.z);
-    for (const {p, point:q} of projected) {
-      const tangent = position(p,time,.013);
+    const tilt = .9 + Math.sin(time * .17) * .3, turn = -.5 + time * .075;
+    const camera = { ct: Math.cos(tilt), st: Math.sin(tilt), cr: Math.cos(turn), sr: Math.sin(turn), scale: Math.min(width*.46,height*.49) };
+    for (const p of particles) {
+      position(p,time,0,camera,p.point);
+      position(p,time,.013,camera,p.tangent);
+    }
+    // Reuse the nearly sorted depth order and projection objects between frames.
+    drawOrder.sort((a,b) => a.point.z - b.point.z);
+    const wakeDecay = Math.exp(-dt * 2.1);
+    for (const p of drawOrder) {
+      const q = p.point, tangent = p.tangent;
       let angle = Math.atan2(tangent.y-q.y,tangent.x-q.x);
       const dx = pointer.x-q.x, dy = pointer.y-q.y;
       const distance = Math.hypot(dx,dy);
       const influence = pointer.energy * Math.exp(-distance*distance/(width*width*.065));
       if (!still) {
+        // Carry a fading mark on the strokes themselves, so the wake moves with the field.
+        p.heat *= wakeDecay;
+        const brushX = dx - p.px, brushY = dy - p.py;
+        const brush = pointer.speed > .001 ? pointer.speed * Math.exp(-(brushX*brushX + brushY*brushY)/(width*width*.008)) : 0;
+        if (brush > p.heat) { p.heat = brush; p.wakeAngle = pointer.heading; }
+        if (p.heat < .004) p.heat = 0;
         const polarity = pointer.down ? -1.15 : .5;
         const targetX = dx * influence * polarity;
         const targetY = dy * influence * polarity;
@@ -80,17 +101,24 @@
         p.px += p.vx*dt; p.py += p.vy*dt;
         const toward = Math.atan2(dy,dx);
         angle += Math.atan2(Math.sin(2*(toward-angle)),Math.cos(2*(toward-angle))) * influence * .48;
+        if (p.heat > 0) angle += Math.atan2(Math.sin(2*(p.wakeAngle-angle)),Math.cos(2*(p.wakeAngle-angle))) * p.heat * .4;
       }
-      const x = q.x + (still ? 0 : p.px), y = q.y + (still ? 0 : p.py);
+      const x = (q.x + (still ? 0 : p.px)) * (1-scatter) + width * p.sx * scatter;
+      const y = (q.y + (still ? 0 : p.py)) * (1-scatter) + height * p.sy * scatter;
+      angle += Math.atan2(Math.sin(p.layer*TAU-angle),Math.cos(p.layer*TAU-angle)) * scatter;
       const depth = Math.max(0,Math.min(1,(q.z+1)/2));
       const domain = Math.sin(p.v*TAU + p.u*3 + time*.24);
-      const colorPhase = (domain + 1) * .5;
-      const colorIndex = Math.round(255 * (colorPhase + (.6 - colorPhase) * influence * .65));
+      const front = Math.max(0,Math.min(1,(depth-.15)/.7));
+      const heat = still ? 0 : p.heat;
+      // Depth supplies the broad color regions; folds and cursor movement add warm highlights.
+      const colorPhase = .04 + front*.82 + (domain+1)*.07;
+      const warmth = Math.min(1, heat * .85 + influence * .15);
+      const colorIndex = Math.round(255 * (colorPhase + (Math.max(colorPhase,.88)-colorPhase)*warmth));
       const half = (1.15 + p.layer * 1.05) * q.perspective * (width < 500 ? .85 : 1);
       const edge = Math.max(0,Math.min(1,Math.min(x,y,width-x,height-y)/28));
-      ctx.globalAlpha = Math.min(1, (dark.matches ? .20 + depth*.72 : .12 + depth*.67) + influence*.14) * edge;
+      ctx.globalAlpha = Math.min(1, (dark.matches ? .13 : .07) + Math.pow(depth,1.45)*.95 + heat*.18 + influence*.08) * edge * (1-scatter*.3);
       ctx.strokeStyle = colors.field[colorIndex];
-      ctx.lineWidth = .5 + depth*.52;
+      ctx.lineWidth = .38 + depth*.82 + heat*.12;
       ctx.beginPath();
       ctx.moveTo(x-Math.cos(angle)*half,y-Math.sin(angle)*half);
       ctx.lineTo(x+Math.cos(angle)*half,y+Math.sin(angle)*half);
@@ -108,11 +136,17 @@
     ctx.globalAlpha = 1;
   }
   function running() { return !paused && !reduced.matches && visible && !document.hidden; }
+  function finishEntrance() {
+    if (!entrance) return;
+    entrance = false;
+    try { sessionStorage.setItem('consulting-field-intro', 'seen'); } catch {}
+  }
   function tick(now) {
     frame = 0;
     if (!running()) { last = 0; return; }
     const dt = last ? Math.min((now-last)/1000,.04) : 1/60;
     elapsed += dt; last = now;
+    if (entrance) { entranceTime += dt; if (entranceTime >= 1.2) finishEntrance(); }
     render(false,dt);
     frame = requestAnimationFrame(tick);
   }
@@ -121,7 +155,10 @@
     toggle.hidden = reduced.matches;
     toggle.textContent = paused ? (ja ? '再生' : 'Resume') : (ja ? '一時停止' : 'Pause');
     toggle.setAttribute('aria-pressed',String(paused));
-    if (reduced.matches) { pointer.energy=0; render(true); }
+    if (reduced.matches) {
+      finishEntrance(); pointer.energy=0; pointer.speed=0;
+      particles.forEach(p=>{p.heat=0;}); render(true);
+    }
     else if (running()) frame = requestAnimationFrame(tick);
   }
   function resize() {
