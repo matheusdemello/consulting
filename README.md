@@ -21,7 +21,7 @@ The request format follows [Formspree's documented fetch example](https://formsp
 
 ## Verification
 
-Install Playwright in your development environment; it is not a runtime dependency. Run `node tests/site.cjs` and `node tests/field-quality.cjs`. The latter checks that the entrance plays once per tab session and that the mouse wake persists briefly, then disappears completely. The suites default to installed Microsoft Edge; set `BROWSER_CHANNEL` to another installed Playwright browser channel if needed. They serve real files under `/consulting/` on a temporary loopback port.
+Install Playwright in your development environment; it is not a runtime dependency. Run `node tests/site.cjs`, `node tests/field-quality.cjs`, and `node tests/studies.cjs`. The field suite checks that the entrance plays once per tab session and that the mouse wake persists briefly, then disappears completely. The studies suite opens every case and switches its illustration views by keyboard with JavaScript disabled, in both languages. The suites default to installed Microsoft Edge; set `BROWSER_CHANNEL` to another installed Playwright browser channel if needed. They serve real files under `/consulting/` on a temporary loopback port.
 
 Manual checks: English/Japanese at desktop and phone sizes; keyboard focus; system dark mode; reduced motion; no JavaScript; pause/resume; pointer attraction and hold-to-repel; old `projects.html` redirect. Regression tests block real Formspree submissions and intercept a synthetic endpoint to check success and failure.
 
@@ -32,6 +32,7 @@ Manual checks: English/Japanese at desktop and phone sizes; keyboard focus; syst
 - Topic selection, contact behavior and header: `js/site.js`.
 - Hero: `js/field.js`. A procedural, projected 3D field of moving directors; no object silhouettes or SVG targets. Moving the pointer attracts nearby directors; holding presses them away. The field uses 5,400 strokes on larger canvases and 2,600 on narrow canvases, with a precomputed teal, vermilion and amber palette. `i/field-still.svg` provides the no-JavaScript fallback.
 - Existing portrait: `i/favicon.png`. New small site icon: `i/mark.svg`.
+- Project details use native HTML disclosures and inline SVG diagrams, styled in `css/studies.css`. Radio controls select diagram layers and explanations through CSS, so they work without JavaScript. The illustrations use synthetic geometry, not client records, patient scans, or measured results. Project content is presented by problem and outcome, rather than employment history.
 
 The dipole-inspired animation is an illustration, not a research simulation. Teal recedes into the back of the volume, vermilion follows the folds, and amber highlights the foreground. Moving the cursor leaves a warm, aligned wake that fades. The initial gathering lasts 1.2 seconds of visible animation time; session storage remembers completion in that tab. If storage is unavailable, the animation still works, with the entrance once per page load. It pauses off-screen and in hidden tabs. Reduced motion skips the entrance and wake and uses a static frame. Fonts are requested from Google Fonts; system fallbacks preserve readability if unavailable. There are no analytics scripts.
 
