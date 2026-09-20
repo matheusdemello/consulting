@@ -23,14 +23,14 @@ The request format follows [Formspree's documented fetch example](https://formsp
 
 Install Playwright in your development environment; it is not a runtime dependency. Run `node tests/site.cjs`. The suite defaults to installed Microsoft Edge; set `BROWSER_CHANNEL` to another installed Playwright browser channel if needed. It serves real files under `/consulting/` on a temporary loopback port.
 
-Manual checks: English/Japanese at desktop and phone sizes; keyboard focus; system dark mode; reduced motion; no JavaScript; pause/resume; pointer attraction, hold-to-repel and release ripple; old `projects.html` redirect. Regression tests block real Formspree submissions and intercept a synthetic endpoint to check success and failure.
+Manual checks: English/Japanese at desktop and phone sizes; keyboard focus; system dark mode; reduced motion; no JavaScript; pause/resume; pointer attraction and hold-to-repel; old `projects.html` redirect. Regression tests block real Formspree submissions and intercept a synthetic endpoint to check success and failure.
 
 ## Editing
 
 - Content: `index.html` and `jp/index.html`.
 - Layout and themes: `css/all.css`.
 - Topic selection, contact behavior and header: `js/site.js`.
-- Hero: `js/field.js`. A projected Möbius ribbon with moving strokes and a traveling red pulse. Moving the pointer attracts nearby strokes; holding spreads them apart; release sends a damped wave around the ribbon. Pointer cancellation does not launch a wave. `i/field-still.svg` provides the matching no-JavaScript fallback.
+- Hero: `js/field.js`. A procedural, projected 3D field of moving directors; no object silhouettes or SVG targets. Moving the pointer attracts nearby directors; holding presses them away. `i/field-still.svg` provides the no-JavaScript fallback.
 - Existing portrait: `i/favicon.png`. New small site icon: `i/mark.svg`.
 
 The dipole-inspired animation is an illustration, not a research simulation. It pauses off-screen and in hidden tabs. Reduced motion uses a static frame. Fonts are requested from Google Fonts; system fallbacks preserve readability if unavailable. There are no analytics scripts.

@@ -10,59 +10,42 @@
   const ja = document.documentElement.lang === 'ja';
   const TAU = Math.PI * 2;
   let width = 1, height = 1, frame = 0, last = 0, elapsed = 0;
-  let paused = false, visible = true, particles = [], colors, waves = [];
-  const pointer = { x: 0, y: 0, tx: 0, ty: 0, energy: 0, active: false, down: false, started: 0, origin: 0 };
-  const cycle = TAU * 2;
-  const wrap = a => Math.atan2(Math.sin(a / 2), Math.cos(a / 2)) * 2;
+  let paused = false, visible = true, particles = [], colors;
+  const pointer = { x: 0, y: 0, tx: 0, ty: 0, energy: 0, active: false, down: false };
   const hash = n => { const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v); };
   function palette() {
     const css = getComputedStyle(document.documentElement);
     colors = { ink: css.getPropertyValue('--ink').trim(), red: dark.matches ? '#e27e65' : '#ae3828' };
   }
   function layout() {
-    const count = width < 500 ? 1100 : 2100;
+    const count = width < 500 ? 1000 : 2100;
     particles = Array.from({length: count}, (_, i) => ({
       u: hash(i + 1), v: hash(i + 407), layer: hash(i + 1907),
       px: 0, py: 0, vx: 0, vy: 0
     }));
-    // One continuous boundary traverses both sides of the half-twisted ribbon.
-    for (let i = 0; i < 300; i++) particles.push({
-      u: i / 300, v: 1, layer: .5, edge: true, px: 0, py: 0, vx: 0, vy: 0
-    });
   }
-  // A half-twisted ribbon: the double angular cover lets each stroke travel
-  // continuously onto the opposite face, without a jump at the seam.
+  // A continuously folding, three-dimensional field. No object silhouettes or SVG targets.
   function position(p, time, step = 0) {
-    const a = p.u * cycle + time * .13 + step;
-    const across = p.v * .32;
-    let ripple = 0;
-    for (const wave of waves) {
-      const age = time - wave.born;
-      const d = wrap(a - wave.origin - age * 4.2);
-      ripple += Math.cos(d * 6) * Math.exp(-d * d * 2.2 - age * .65) * wave.strength;
-    }
-    const radius = .70 + across * Math.cos(a / 2) + ripple * .045;
+    const a = p.u * TAU + time * (.18 + p.layer * .055) + step;
+    const b = p.v * TAU + time * .12;
+    const tube = .19 + p.layer * .1 + Math.sin(a * 3 - time * .5) * .04;
+    const radius = .68 + tube * Math.cos(b);
     let x = radius * Math.cos(a);
     let y = radius * Math.sin(a);
-    let z = across * Math.sin(a / 2) + ripple * (.10 + p.v * .06);
-    const tilt = .72 + Math.sin(time * .13) * .14;
-    const turn = -.38 + Math.sin(time * .09) * .25;
+    let z = tube * Math.sin(b) + .23 * Math.sin(a * 2 + time * .24);
+    // The volume tilts, while directors travel around it at independent speeds.
+    const tilt = .9 + Math.sin(time * .17) * .3;
+    const turn = -.5 + time * .075;
     const yy = y * Math.cos(tilt) - z * Math.sin(tilt);
     const zz = y * Math.sin(tilt) + z * Math.cos(tilt);
     const xx = x * Math.cos(turn) + zz * Math.sin(turn);
     z = -x * Math.sin(turn) + zz * Math.cos(turn);
     const perspective = 2.9 / (2.9 - z);
-    const scale = Math.min(width * .41, height * .43);
-    // A gentle in-plane rotation keeps the twist visible rather than turning edge-on.
-    const roll = -.36 + Math.sin(time * .07) * .12;
-    const sx = xx * Math.cos(roll) - yy * Math.sin(roll);
-    const sy = xx * Math.sin(roll) + yy * Math.cos(roll);
-    return { x: width * .5 + sx * scale * perspective, y: height * .5 + sy * scale * perspective, z, perspective, a, ripple };
+    const scale = Math.min(width * .46, height * .49);
+    return { x: width * .5 + xx * scale * perspective, y: height * .5 + yy * scale * perspective, z, perspective };
   }
   function render(still = false, dt = 1 / 60) {
     const time = still ? 5 : elapsed;
-    if (still) waves = [];
-    else waves = waves.filter(wave => time - wave.born < 6);
     const smooth = 1 - Math.exp(-dt * 8);
     pointer.x += (pointer.tx - pointer.x) * smooth;
     pointer.y += (pointer.ty - pointer.y) * smooth;
@@ -71,41 +54,32 @@
     ctx.lineCap = 'round';
     const projected = particles.map(p => ({p, point: position(p,time)}));
     projected.sort((a,b) => a.point.z - b.point.z);
-    if (pointer.down && !still) {
-      let nearest = Infinity;
-      for (const {point:q} of projected) {
-        const d = (q.x-pointer.x)**2 + (q.y-pointer.y)**2;
-        if (d < nearest) { nearest = d; pointer.origin = q.a; }
-      }
-    }
     for (const {p, point:q} of projected) {
       const tangent = position(p,time,.013);
       let angle = Math.atan2(tangent.y-q.y,tangent.x-q.x);
       const dx = pointer.x-q.x, dy = pointer.y-q.y;
       const distance = Math.hypot(dx,dy);
       const influence = pointer.energy * Math.exp(-distance*distance/(width*width*.065));
-      const pulseDistance = wrap(q.a - time * 1.05);
-      const pulse = Math.exp(-pulseDistance * pulseDistance * 2.6);
       if (!still) {
-        const polarity = pointer.down ? -.85 : .32;
+        const polarity = pointer.down ? -1.15 : .5;
         const targetX = dx * influence * polarity;
         const targetY = dy * influence * polarity;
         p.vx += (targetX-p.px)*dt*22;
         p.vy += (targetY-p.py)*dt*22;
-        p.vx *= Math.exp(-dt*4.5); p.vy *= Math.exp(-dt*4.5);
+        p.vx *= Math.exp(-dt*5); p.vy *= Math.exp(-dt*5);
         p.px += p.vx*dt; p.py += p.vy*dt;
         const toward = Math.atan2(dy,dx);
         angle += Math.atan2(Math.sin(2*(toward-angle)),Math.cos(2*(toward-angle))) * influence * .48;
       }
       const x = q.x + (still ? 0 : p.px), y = q.y + (still ? 0 : p.py);
       const depth = Math.max(0,Math.min(1,(q.z+1)/2));
-      angle += Math.sin(p.layer * TAU + time * .4) * .16 * (1-pulse);
-      const accent = pulse > .20 || Math.abs(q.ripple) > .12 || influence > .55;
-      const half = (p.edge ? 2.8 : 1.6 + p.layer * 1.25 + pulse * .6) * q.perspective * (width < 500 ? .82 : 1);
+      const domain = Math.sin(p.v*TAU + p.u*3 + time*.24);
+      const accent = domain > .24 || influence > .42;
+      const half = (1.45 + p.layer * 1.35) * q.perspective * (width < 500 ? .85 : 1);
       const edge = Math.max(0,Math.min(1,Math.min(x,y,width-x,height-y)/28));
-      ctx.globalAlpha = Math.min(1, .10 + depth*.62 + pulse*.22 + (p.edge ? .15 : 0)) * edge;
+      ctx.globalAlpha = (.12 + depth*.67 + influence*.14) * edge;
       ctx.strokeStyle = accent ? colors.red : colors.ink;
-      ctx.lineWidth = (p.edge ? .65 : .55) + depth*.7 + pulse*.25;
+      ctx.lineWidth = .65 + depth*.65;
       ctx.beginPath();
       ctx.moveTo(x-Math.cos(angle)*half,y-Math.sin(angle)*half);
       ctx.lineTo(x+Math.cos(angle)*half,y+Math.sin(angle)*half);
@@ -153,28 +127,16 @@
     if (!pointer.active) { pointer.x=pointer.tx; pointer.y=pointer.ty; }
     pointer.active = true;
   }
-  function release() {
-    if (pointer.down && running()) {
-      waves.push({ origin: pointer.origin, born: elapsed, strength: Math.min(1.3, .55 + elapsed - pointer.started) });
-      waves = waves.slice(-3);
-    }
-    pointer.down=false;
-  }
-  function cancel() { pointer.down=false; pointer.active=false; }
+  function release() { pointer.down=false; }
   palette(); resize(); stage.classList.add('is-ready');
   toggle.addEventListener('click',()=>{paused=!paused;sync();});
   canvas.addEventListener('pointermove',move,{passive:true});
-  canvas.addEventListener('pointerdown',event=>{
-    if (event.button !== 0 || !event.isPrimary) return;
-    move(event);pointer.down=true;pointer.started=elapsed;
-    canvas.setPointerCapture(event.pointerId);
-  });
-  canvas.addEventListener('pointerleave',()=>{if (!pointer.down) pointer.active=false;});
+  canvas.addEventListener('pointerdown',event=>{move(event);pointer.down=true;});
+  canvas.addEventListener('pointerleave',()=>{pointer.active=false;pointer.down=false;});
   window.addEventListener('pointerup',release);
-  canvas.addEventListener('pointercancel',cancel);
-  canvas.addEventListener('lostpointercapture',cancel);
-  window.addEventListener('blur',cancel);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden) cancel();sync();});
+  canvas.addEventListener('pointercancel',()=>{release();pointer.active=false;});
+  window.addEventListener('blur',()=>{release();pointer.active=false;});
+  document.addEventListener('visibilitychange',sync);
   reduced.addEventListener('change',sync);
   dark.addEventListener('change',()=>{palette();render(reduced.matches);});
   if ('IntersectionObserver' in window) new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();}).observe(stage);
