@@ -1,259 +1,174 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マテウス・デ・メロ – 地理空間・マテリアルインフォマティクスAIコンサルティング</title>
-    <meta name="author" content="Matheus de Mello">
-    <meta name="description" content="物理学博士・AIエンジニア。京都を拠点に地理空間データサイエンス、マテリアルインフォマティクス、AIモデル開発の専門コンサルティングを提供。">
-    <meta name="keywords" content="AIコンサルティング, 地理空間データサイエンス, マテリアルインフォマティクス, 機械学習, 日本, 京都, 物理学博士">
-    <meta property="og:url" content="https://your-domain.com/jp/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="マテウス・デ・メロ – 地理空間・マテリアルインフォマティクスAIコンサルティング">
-    <meta property="og:description" content="物理学博士・AIエンジニア。京都を拠点に地理空間データサイエンス、マテリアルインフォマティクス、AIモデル開発の専門コンサルティングを提供。">
-    <meta property="og:image" content="https://your-domain.com/i/opengraph.jpg">
-    <meta property="og:locale" content="ja_JP">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="マテウス・デ・メロ – AIコンサルティング">
-    <meta name="twitter:description" content="物理学博士・AIエンジニア。京都を拠点に地理空間データサイエンス、マテリアルインフォマティクス、AIモデル開発の専門コンサルティングを提供。">
-    <meta name="twitter:image" content="https://your-domain.com/i/opengraph.jpg">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
-    <link rel="stylesheet" href="../css/all.css">
-    <link rel="icon" href="../i/favicon.png">
-    
-    <style>
-        /* Japanese-specific font override */
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Matheus de Mello | 物理・AI・データ解析</title>
+  <meta name="description" content="東京を拠点に活動する物理学博士・AIエンジニア。ロボティクス、文書、地理空間データ、医用画像、シミュレーションの技術支援。日本語・英語対応。">
+  <link rel="canonical" href="https://matheusdemello.github.io/consulting/jp/">
+  <link rel="alternate" hreflang="en" href="https://matheusdemello.github.io/consulting/">
+  <link rel="alternate" hreflang="ja" href="https://matheusdemello.github.io/consulting/jp/">
+  <link rel="alternate" hreflang="x-default" href="https://matheusdemello.github.io/consulting/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ノイズから、秩序を。 | Matheus de Mello">
+  <meta property="og:description" content="物理・AI・データ解析。東京を拠点に、日本語・英語で技術支援。">
+  <meta property="og:url" content="https://matheusdemello.github.io/consulting/jp/">
+  <meta property="og:locale" content="ja_JP">
+  <link rel="icon" type="image/svg+xml" href="../i/mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&amp;family=Noto+Sans+JP:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/all.css">
+  <script src="../js/site.js" defer></script>
+  <script src="../js/field.js" defer></script>
 </head>
 <body>
-    <!-- Skip link for accessibility -->
-    <a href="#main-content" class="skip-link">メインコンテンツにスキップ</a>
-    
-    <!-- Navigation -->
-    <header class="nav">
-        <h1>
-            <a href="index.html">
-                <span id="first">マテウス</span> <span id="last">デ・メロ</span>
-            </a>
-        </h1>
-        <nav>
-            <ul>
-                <li><a href="#about">自己紹介</a></li>
-                <li><a href="#services">サービス</a></li>
-                <li><a href="#projects">実績</a></li>
-                <li><a href="#contact">お問い合わせ</a></li>
-                <li aria-hidden="true">&middot;</li>
-                <li><a href="../index.html" class="lang-switch">EN</a></li>
-            </ul>
-        </nav>
-    </header>
+<a class="skip-link" href="#main-content">本文へ移動</a>
 
-    <main id="main-content">
-        <!-- Intro Article -->
-        <article class="intro">
-            <header class="about-me">
-                <picture>
-                    <img src="../i/favicon.png" alt="マテウス・デ・メロ - AIコンサルタント">
-                </picture>
-                <h1>はじめまして、<a href="#about">マテウス</a>と申します。物理学博士号を持つフリーランスの<a href="#services">AIコンサルタント</a>として、日本企業の空間データ解析と材料探索における機械学習活用を支援しています</h1>
-            </header>
-            
-            <figure class="circles">
-                <a class="circle" href="#services">AIモデル開発・実装</a>
-                <a class="circle" href="#projects">3D都市モデル</a>
-                <a class="circle" href="#services">マテリアル<br>インフォマティクス</a>
-                <a class="circle" href="#contact">京都</a>
-            </figure>
-        </article>
+<header class="site-header">
+  <a class="wordmark" href="../jp/" aria-label="Matheus de Mello、ホーム"><img src="../i/mark.svg" width="30" height="30" alt=""> <span>matheus de mello<span class="wordmark-sub">SCIENTIFIC CONSULTING</span></span></a>
+  <nav aria-label="メインナビゲーション">
+    <a href="#problems">実績</a><a href="#approach">方法</a><a href="#about">自己紹介</a><a href="#contact">相談する</a><a class="language-link" href="../" lang="en" hreflang="en">EN <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
+<main id="main-content">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-intro">
+      <p class="eyebrow hero-eyebrow">独立系コンサルタント · 東京</p>
+      <h1 id="hero-title">ノイズから、<br>秩序を。</h1>
+      <p class="hero-description">東京を拠点に活動する物理学博士・AIエンジニアのマテウス・デ・メロです。文書や画像からロボット、シミュレーションまで。扱いの難しいデータからシステムをつくり、合意した基準で検証します。</p>
+      <div class="hero-actions"><a class="button primary" href="#contact">課題を相談する <span aria-hidden="true">↗</span></a><a class="quiet-link" href="#problems">これまでの仕事を見る <span aria-hidden="true">↓</span></a></div>
+      <p class="credential">京都大学 博士（理学）</p>
+    </div>
+    <figure class="field-figure" aria-label="ポインターに応答しながら変化する、立体的な線分の場">
+      <div class="field-stage"><span class="field-cross cross-top" aria-hidden="true">+</span><span class="field-cross cross-bottom" aria-hidden="true">+</span>
+        <div class="field-fallback"><img src="../i/field-still.svg" width="600" height="530" alt=""></div>
+        <canvas id="dipole-field" aria-hidden="true"></canvas>
+      </div>
+      <figcaption><div><span id="field-caption">インタラクティブ・フィールド</span></div><button id="motion-toggle" type="button" hidden aria-pressed="false">一時停止</button></figcaption>
+      <p class="field-note">ポインターで引き寄せ、長押しで押し広げる。</p>
+    </figure>
+    <div class="hero-foot"><span>PHYSICS × ENGINEERING</span><span>問いから、動くシステムへ。</span><span>日本語 / EN</span></div>
+  </section>
 
-        <!-- About Section -->
-        <section id="about">
-            <h2>自己紹介</h2>
-            <div class="about-content">
-                <p>京都を拠点とする<strong>物理学博士・AIエンジニア</strong>として、学術研究と実用的なビジネス応用の橋渡しを専門としています。機械学習とデータサイエンスにおいて10年以上の経験を持ち、日本の企業や研究機関が最先端のAI技術を活用できるよう支援しています。</p>
-                
-                <p>専門分野は<strong>地理空間データサイエンス</strong>、<strong>マテリアルインフォマティクス</strong>、<strong>AIモデル開発</strong>で、特にコンピュータビジョン、予測モデリング、空間解析に焦点を当てています。都市計画・インフラから材料研究・医薬品開発まで、様々な業界のクライアント様と協働してきました。</p>
-                
-                <p>即座のビジネス価値を提供しながら、長期的な技術能力を構築する<strong>実用的でスケーラブルなソリューション</strong>の提供を信条としています。深い技術的専門知識と日本のビジネス文化・コミュニケーション習慣への理解を組み合わせたアプローチを取っています。</p>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services">
-            <h2>提供サービス</h2>
-            <div class="service-grid">
-                <article class="service">
-                    <h3>AIモデル開発</h3>
-                    <p>プロトタイプから本番環境まで、カスタム機械学習ソリューションを提供。コンピュータビジョン、自然言語処理、予測モデリングとクラウド展開を専門としています。</p>
-                </article>
-                <article class="service">
-                    <h3>地理空間データ処理</h3>
-                    <p>PLATEAU、CityGML、3D都市モデルの専門的な処理。空間解析、可視化、AIシステムとの統合のためのパイプライン構築。</p>
-                </article>
-                <article class="service">
-                    <h3>マテリアルインフォマティクス</h3>
-                    <p>機械学習による材料探索の加速。分子特性予測から合成パラメータの最適化まで対応。</p>
-                </article>
-                <article class="service">
-                    <h3>カスタムPythonツール</h3>
-                    <p>データ処理、解析ワークフロー、研究応用のための専門的なソフトウェアツールと自動化スクリプトの開発。</p>
-                </article>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects">
-            <h2>最近の実績</h2>
-            <div class="project-grid">
-                <article class="project">
-                    <h3>3D都市モデル解析パイプライン</h3>
-                    <p>PLATEAUデータを処理し、都市インフラの最適配置を特定する自動化パイプラインを開発。歩行者流動と環境要因の予測分析のための機械学習モデルを統合。</p>
-                    <div class="tech-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">CityGML</span>
-                        <span class="tag">TensorFlow</span>
-                        <span class="tag">AWS</span>
-                    </div>
-                </article>
-                <article class="project">
-                    <h3>材料特性予測システム</h3>
-                    <p>分子構造から材料特性を予測するグラフニューラルネットワークシステムを構築。材料研究機関の実験検証時間を60％削減。</p>
-                    <div class="tech-tags">
-                        <span class="tag">PyTorch</span>
-                        <span class="tag">RDKit</span>
-                        <span class="tag">DGL</span>
-                        <span class="tag">Docker</span>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact">
-            <h2>お問い合わせ</h2>
-            <div class="contact-content">
-                <p>AI、地理空間解析、マテリアルインフォマティクスに関するコンサルティングプロジェクトを承っております。京都を拠点に、日本全国および海外のクライアント様と協働しています。</p>
-                <p>ご連絡はこちらまで: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-                
-                <div class="availability">
-                    <h4>対応可能時間・返信時間</h4>
-                    <p>通常、営業日中の24時間以内にご返信いたします。緊急のプロジェクトの場合は、初回メッセージでタイムライン要件をお知らせください。短期のコンサルティング契約から長期パートナーシップまで対応可能です。</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Newsletter/Feedback -->
-    <aside class="feedback">
-        <button class="feedback-button" onclick="toggleNewsletter(event)">
-            <span><em>技術情報</em>を受け取る</span>
-        </button>
-        <div class="feedback-content" id="newsletter">
-            <p>地理空間・材料科学におけるAI応用の最新情報を月次でお届けします。</p>
-            <form action="#" method="post">
-                <input type="email" name="email" placeholder="メールアドレス" required aria-label="ニュースレター用メールアドレス">
-                <input type="submit" value="登録">
-            </form>
+  <section class="editorial-section" id="problems" aria-labelledby="problems-title">
+    <aside class="section-marker" aria-hidden="true"><span>01</span><span lang="ja">実績</span></aside>
+    <div class="section-content">
+      <div class="section-heading"><p class="eyebrow">産業・研究での取り組み</p><h2 id="problems-title">これまでの仕事。</h2><p>取り組んだ課題、私の役割、そして仕事を通じて生まれた価値を紹介します。</p></div>
+      <div class="problem-list">
+      <article class="problem-row" aria-labelledby="case-robotics-title">
+        <span class="row-index" aria-hidden="true">01</span>
+        <div class="problem-copy">
+          <span class="eyebrow">ロボティクス・実機開発</span>
+          <h3 id="case-robotics-title">密集した透明な袋を、ロボットでつかむ。</h3>
+          <p class="case-problem">薄く透明な袋が密集しているため、物体の識別と把持が難しい課題でした。</p>
+          <dl class="case-details">
+            <div><dt>担当したこと</dt><dd>点群からの物体分離、位置・姿勢の推定、把持計画、ロボット制御をつなぐパイプラインを開発しました。</dd></div>
+            <div><dt>得られた価値</dt><dd>実機で自律ピッキングを実施し、人の介入がない連続運転で把持の成功率を評価しました。画像認識から実際の動作までをつなぎました。</dd></div>
+          </dl>
+          <a class="case-contact" href="#contact" data-topic="robotics">似た課題を相談する <span aria-hidden="true">↗</span></a>
         </div>
-    </aside>
-
-    <!-- Footer -->
-    <footer>
-        <ul class="social">
-            <li>
-                <a href="mailto:your.email@example.com" title="メール" aria-label="メール送信">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                </a>
-            </li>
-            <li>
-                <a href="https://linkedin.com/in/your-profile" title="LinkedIn" aria-label="LinkedInプロフィール" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                        <rect x="2" y="9" width="4" height="12"></rect>
-                        <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                </a>
-            </li>
-            <li>
-                <a href="https://github.com/your-username" title="GitHub" aria-label="GitHubプロフィール" target="_blank" rel="noopener">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                </a>
-            </li>
-        </ul>
-        
-        <div class="copyright">
-            <p>&copy; 2025 マテウス・デ・メロ</p>
-            <small>
-                <a href="privacy.html">プライバシーポリシー</a> · 
-                <a href="legal.html">法的事項</a>
-            </small>
+      </article>
+      <article class="problem-row" aria-labelledby="case-documents-title">
+        <span class="row-index" aria-hidden="true">02</span>
+        <div class="problem-copy">
+          <span class="eyebrow">文書AI・技術知識の活用</span>
+          <h3 id="case-documents-title">蓄積された技術報告書を、使える知識に。</h3>
+          <p class="case-problem">過去の知見が、日本語の報告書、スキャン画像、図表、手書きの注記に分散していました。</p>
+          <dl class="case-details">
+            <div><dt>担当したこと</dt><dd>本文・図表・手書き情報を抽出し、製品識別子や技術的な文脈も組み合わせて検索する仕組みを開発しました。</dd></div>
+            <div><dt>得られた価値</dt><dd>過去の知見を見つけ、回答の根拠を元の資料まで確認できるようにしました。報告書を一件ずつ読み直す作業の削減につながります。</dd></div>
+          </dl>
+          <a class="case-contact" href="#contact" data-topic="documents">似た課題を相談する <span aria-hidden="true">↗</span></a>
         </div>
-    </footer>
+      </article>
+      <article class="problem-row" aria-labelledby="case-geospatial-title">
+        <span class="row-index" aria-hidden="true">03</span>
+        <div class="problem-copy">
+          <span class="eyebrow">地理空間AI・太陽光発電の評価</span>
+          <h3 id="case-geospatial-title">空からのデータで、屋根の太陽光発電ポテンシャルを評価。</h3>
+          <p class="case-problem">太陽光発電の評価には、画像だけでなく、屋根の形状や周辺条件を把握する必要がありました。</p>
+          <dl class="case-details">
+            <div><dt>担当したこと</dt><dd>衛星画像、LiDAR、メッシュ、点群を統合し、データの前処理からモデルの推論までを自動化しました。</dd></div>
+            <div><dt>得られた価値</dt><dd>屋根の傾斜、日陰、反射率を考慮した、建物ごとの発電ポテンシャルと投資採算性の評価を実現。解析コストも削減しました。</dd></div>
+          </dl>
+          <a class="case-contact" href="#contact" data-topic="geospatial">似た課題を相談する <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="problem-row" aria-labelledby="case-medical-title">
+        <span class="row-index" aria-hidden="true">04</span>
+        <div class="problem-copy">
+          <span class="eyebrow">医用画像・研究開発</span>
+          <h3 id="case-medical-title">膝の手術計画に向けた、医用画像解析の開発。</h3>
+          <p class="case-problem">小さな解剖学的構造、学習データのクラス不均衡、曖昧な境界が、画像解析を難しくしていました。</p>
+          <dl class="case-details">
+            <div><dt>担当したこと</dt><dd>膝の手術計画ソフトウェアで、骨・軟骨・骨棘を解析するための機械学習コンポーネントを開発しました。</dd></div>
+            <div><dt>研究開発への貢献</dt><dd>計画ワークフローに必要な画像解析機能を開発。小さな構造や曖昧な境界という、この課題特有の難しさに焦点を当てました。</dd></div>
+          </dl>
+          <a class="case-contact" href="#contact" data-topic="medical">似た課題を相談する <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="problem-row" aria-labelledby="case-simulation-title">
+        <span class="row-index" aria-hidden="true">05</span>
+        <div class="problem-copy">
+          <span class="eyebrow">科学技術計算・材料研究</span>
+          <h3 id="case-simulation-title">分子間の相互作用から、材料の振る舞いを理解する。</h3>
+          <p class="case-problem">分子間の相互作用が、集団的な秩序や材料の相転移を生む仕組みを理解する課題でした。</p>
+          <dl class="case-details">
+            <div><dt>担当したこと</dt><dd>量子化学計算と、極性液晶の分子動力学シミュレーションを組み合わせました。</dd></div>
+            <div><dt>得られた価値</dt><dd>配向秩序、相転移、ドメイン形成の仕組みを明らかにし、査読付きの研究成果につなげました。</dd></div>
+          </dl>
+          <a class="case-contact" href="#contact" data-topic="simulation">似た課題を相談する <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      </div>
+      <a class="other-problem" href="#contact" data-topic="other"><span><strong>ここにない課題も。</strong> データと難しい問いがあれば、ぜひ聞かせてください。</span><span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
 
-    <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                    // Update URL without page jump
-                    history.pushState(null, null, this.getAttribute('href'));
-                }
-            });
-        });
+  <section class="editorial-section" id="approach" aria-labelledby="approach-title">
+    <aside class="section-marker" aria-hidden="true"><span>02</span><span lang="ja">方法</span></aside>
+    <div class="section-content">
+      <div class="section-heading"><p class="eyebrow">進め方</p><h2 id="approach-title">問いを明確に。<br>答えは検証できる形に。</h2><p>各段階で、読める・動かせる・判断に使える成果物をお渡しします。</p></div>
+      <ol class="approach-list"><li><span class="step-index">01</span><div><h3>定義する</h3><h4>問いと成功条件を決める。</h4><p>着手前に課題を1ページに整理し、成功を判断するテストについて合意します。</p><span class="step-output">課題定義書・成功基準</span></div></li><li><span class="step-index">02</span><div><h3>確かめる</h3><h4>実データで可能性を確かめる。</h4><p>範囲を絞った検証を実データで実施。進めるべきかどうかを、根拠とともに報告します。</p><span class="step-output">検証結果・実施判断</span></div></li><li><span class="step-index">03</span><div><h3>つくる</h3><h4>つくりながら評価する。</h4><p>開発と並行して評価を実施。動作するシステムと、測定した性能・既知の限界をまとめた報告書をお渡しします。</p><span class="step-output">システム・評価報告書</span></div></li><li><span class="step-index">04</span><div><h3>引き継ぐ</h3><h4>運用できる形で引き継ぐ。</h4><p>コード、ドキュメント、チーム向けの説明まで。日本語・英語のどちらでも対応します。</p><span class="step-output">コード・ドキュメント・説明会</span></div></li></ol>
+    </div>
+  </section>
 
-        // Newsletter toggle
-        function toggleNewsletter(e) {
-            e.preventDefault();
-            const newsletter = document.getElementById('newsletter');
-            newsletter.classList.toggle('active');
-            
-            // Focus management for accessibility
-            if (newsletter.classList.contains('active')) {
-                const emailInput = newsletter.querySelector('input[type="email"]');
-                if (emailInput) {
-                    setTimeout(() => emailInput.focus(), 100);
-                }
-            }
-        }
+  <section class="editorial-section" id="about" aria-labelledby="about-title">
+    <aside class="section-marker" aria-hidden="true"><span>03</span><span lang="ja">背景</span></aside>
+    <div class="section-content about-layout">
+      <figure class="portrait"><img src="../i/favicon.png" alt="マテウス・デ・メロ" width="1080" height="1920" loading="lazy"><figcaption>MATHEUS DE MELLO<br>東京・日本</figcaption></figure>
+      <div class="about-copy"><p class="eyebrow">自己紹介</p><h2 id="about-title">物理学の視点で、<br>課題と向き合う。</h2>
+        <p>京都大学で物理学の博士号を取得しました。現在は科学技術計算とAIエンジニアリングの間で、データを理解し、モデルを選び、どこまで使えるのかを確かめる仕事をしています。</p>
+        <p>ページ冒頭の線分の場は、双極子の配向から着想を得たイラストです。小さな要素が局所的な影響に応答する様子を表現しており、シミュレーション結果ではありません。一見ノイズに見えるものから構造を見いだすこと。それが、この仕事に惹かれる理由です。</p>
+        <div class="working-language"><span class="eyebrow">日本語・英語で対応</span><p>打ち合わせ、報告書、引き継ぎまで。<br>日本語・英語で直接やり取りできます。</p></div>
+      </div>
+    </div>
+  </section>
 
-        // Close newsletter when clicking outside
-        document.addEventListener('click', function(e) {
-            const feedback = document.querySelector('.feedback');
-            if (!feedback.contains(e.target)) {
-                document.getElementById('newsletter').classList.remove('active');
-            }
-        });
-
-        // Keyboard navigation for newsletter
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.getElementById('newsletter').classList.remove('active');
-            }
-        });
-
-        // Form submission handling
-        document.querySelector('.feedback-content form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            if (email) {
-                // Here you would typically send to your newsletter service
-                alert('ニュースレターの登録ありがとうございます！まもなく月次技術情報をお送りいたします。');
-                this.reset();
-                document.getElementById('newsletter').classList.remove('active');
-            }
-        });
-    </script>
+  <section class="editorial-section contact-section" id="contact" aria-labelledby="contact-title">
+    <aside class="section-marker" aria-hidden="true"><span>04</span><span lang="ja">相談</span></aside>
+    <div class="section-content">
+      <div class="section-heading"><p class="eyebrow">まずは課題から</p><h2 id="contact-title">どんな問いに、<br>向き合っていますか。</h2><p>まだ整理できていなくても大丈夫です。手元にあるもの、必要なもの、困っていることを聞かせてください。</p></div>
+      <div class="contact-layout">
+        <form id="contact-form" data-endpoint="" action="#contact" method="post" aria-describedby="form-status">
+          <label for="problem">どんな課題に取り組んでいますか？ <span class="required">（必須）</span></label>
+          <textarea id="problem" name="message" rows="4" required maxlength="10000" placeholder="問い、データ、困っていることなど…"></textarea>
+          <label for="topic">関連する分野 <span class="optional">（任意）</span></label><select id="topic" name="topic"><option value="">分野を選択（任意）</option><option value="robotics">ロボティクス</option><option value="documents">文書・ナレッジ</option><option value="geospatial">地理空間データ</option><option value="medical">医用画像</option><option value="simulation">シミュレーション・材料</option><option value="other">その他</option></select>
+          <label for="email">メールアドレス <span class="required">（必須）</span></label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@company.com">
+          <label for="name">お名前・会社名 <span class="optional">（任意）</span></label><input id="name" name="name" autocomplete="organization" maxlength="200">
+          <div class="submit-row"><button class="button primary" type="submit" disabled>メッセージを送る <span aria-hidden="true">↗</span></button></div>
+          <p id="form-status" class="form-status" role="status" aria-live="polite">フォームは現在未接続です。入力内容は送信されません。</p>
+          <noscript><p>接続後のフォームの利用にはJavaScriptが必要です。</p></noscript>
+        </form>
+        <aside class="contact-aside"><h3>お問い合わせの後は</h3><p>お問い合わせは私自身が確認します。まず課題についてお話しし、その後、範囲を明確にした提案書について合意します。</p><p>完成した依頼書は不要です。<br>まずは、ひとつの問いから。</p>
+          <div class="privacy-note" id="privacy"><h3>入力情報について</h3><p id="privacy-offline">このプレビューでは、フォームの入力内容は送信・保存されません。</p><p id="privacy-connected" hidden>メッセージと連絡先はFormspreeを通じてマテウス・デ・メロに送られ、お問い合わせへの返信と業務の相談に使用します。 <a href="https://formspree.io/legal/privacy/">Formspreeのプライバシーポリシー</a></p><p>機密文書、患者情報、認証情報は入力しないでください。データの共有方法は、相談の際に決められます。</p></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><a href="./">Matheus de Mello</a><span>科学・AIの技術支援 · 東京</span><div><a href="#privacy">入力情報について</a><a href="../" lang="en" hreflang="en">English ↗</a></div></footer>
 </body>
 </html>

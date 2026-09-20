@@ -2,3 +2,6 @@
 *.mdc
 *.mdc
 *.yaml
+!README.md
+.qa/
+node_modules/
