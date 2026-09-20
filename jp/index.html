@@ -41,13 +41,13 @@
       <div class="hero-actions"><a class="button primary" href="#contact">課題を相談する <span aria-hidden="true">↗</span></a><a class="quiet-link" href="#problems">これまでの仕事を見る <span aria-hidden="true">↓</span></a></div>
       <p class="credential">京都大学 博士（理学）</p>
     </div>
-    <figure class="field-figure" aria-label="ポインターに応答しながら変化する、立体的な線分の場">
+    <figure class="field-figure" aria-label="ポインターに応答する、流れるメビウスの帯">
       <div class="field-stage"><span class="field-cross cross-top" aria-hidden="true">+</span><span class="field-cross cross-bottom" aria-hidden="true">+</span>
         <div class="field-fallback"><img src="../i/field-still.svg" width="600" height="530" alt=""></div>
         <canvas id="dipole-field" aria-hidden="true"></canvas>
       </div>
       <figcaption><div><span id="field-caption">インタラクティブ・フィールド</span></div><button id="motion-toggle" type="button" hidden aria-pressed="false">一時停止</button></figcaption>
-      <p class="field-note">ポインターで引き寄せ、長押しで押し広げる。</p>
+      <p class="field-note">ポインターで引き寄せ、長押しで広げ、離すと波が走る。</p>
     </figure>
     <div class="hero-foot"><span>PHYSICS × ENGINEERING</span><span>問いから、動くシステムへ。</span><span>日本語 / EN</span></div>
   </section>
@@ -152,18 +152,18 @@
     <div class="section-content">
       <div class="section-heading"><p class="eyebrow">まずは課題から</p><h2 id="contact-title">どんな問いに、<br>向き合っていますか。</h2><p>まだ整理できていなくても大丈夫です。手元にあるもの、必要なもの、困っていることを聞かせてください。</p></div>
       <div class="contact-layout">
-        <form id="contact-form" data-endpoint="" action="#contact" method="post" aria-describedby="form-status">
+        <form id="contact-form" data-endpoint="https://formspree.io/f/xoevjdrw" action="https://formspree.io/f/xoevjdrw" method="post" aria-describedby="form-status">
           <label for="problem">どんな課題に取り組んでいますか？ <span class="required">（必須）</span></label>
           <textarea id="problem" name="message" rows="4" required maxlength="10000" placeholder="問い、データ、困っていることなど…"></textarea>
           <label for="topic">関連する分野 <span class="optional">（任意）</span></label><select id="topic" name="topic"><option value="">分野を選択（任意）</option><option value="robotics">ロボティクス</option><option value="documents">文書・ナレッジ</option><option value="geospatial">地理空間データ</option><option value="medical">医用画像</option><option value="simulation">シミュレーション・材料</option><option value="other">その他</option></select>
           <label for="email">メールアドレス <span class="required">（必須）</span></label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@company.com">
           <label for="name">お名前・会社名 <span class="optional">（任意）</span></label><input id="name" name="name" autocomplete="organization" maxlength="200">
           <div class="submit-row"><button class="button primary" type="submit" disabled>メッセージを送る <span aria-hidden="true">↗</span></button></div>
-          <p id="form-status" class="form-status" role="status" aria-live="polite">フォームは現在未接続です。入力内容は送信されません。</p>
+          <p id="form-status" class="form-status" role="status" aria-live="polite">送信するにはJavaScriptを有効にしてください。</p>
           <noscript><p>接続後のフォームの利用にはJavaScriptが必要です。</p></noscript>
         </form>
         <aside class="contact-aside"><h3>お問い合わせの後は</h3><p>お問い合わせは私自身が確認します。まず課題についてお話しし、その後、範囲を明確にした提案書について合意します。</p><p>完成した依頼書は不要です。<br>まずは、ひとつの問いから。</p>
-          <div class="privacy-note" id="privacy"><h3>入力情報について</h3><p id="privacy-offline">このプレビューでは、フォームの入力内容は送信・保存されません。</p><p id="privacy-connected" hidden>メッセージと連絡先はFormspreeを通じてマテウス・デ・メロに送られ、お問い合わせへの返信と業務の相談に使用します。 <a href="https://formspree.io/legal/privacy/">Formspreeのプライバシーポリシー</a></p><p>機密文書、患者情報、認証情報は入力しないでください。データの共有方法は、相談の際に決められます。</p></div>
+          <div class="privacy-note" id="privacy"><h3>入力情報について</h3><p id="privacy-offline">送信にはJavaScriptが必要です。入力内容はまだ送信されていません。</p><p id="privacy-connected" hidden>メッセージと連絡先はFormspreeを通じてマテウス・デ・メロに送られ、お問い合わせへの返信と業務の相談に使用します。 <a href="https://formspree.io/legal/privacy/">Formspreeのプライバシーポリシー</a></p><p>機密文書、患者情報、認証情報は入力しないでください。データの共有方法は、相談の際に決められます。</p></div>
         </aside>
       </div>
     </div>

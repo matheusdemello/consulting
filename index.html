@@ -41,13 +41,13 @@
       <div class="hero-actions"><a class="button primary" href="#contact">Describe your problem <span aria-hidden="true">↗</span></a><a class="quiet-link" href="#problems">Explore selected work <span aria-hidden="true">↓</span></a></div>
       <p class="credential">PhD in Physics · Kyoto University</p>
     </div>
-    <figure class="field-figure" aria-label="An evolving three-dimensional field of strokes that responds to the pointer">
+    <figure class="field-figure" aria-label="A flowing Möbius ribbon that responds to the pointer">
       <div class="field-stage"><span class="field-cross cross-top" aria-hidden="true">+</span><span class="field-cross cross-bottom" aria-hidden="true">+</span>
         <div class="field-fallback"><img src="i/field-still.svg" width="600" height="530" alt=""></div>
         <canvas id="dipole-field" aria-hidden="true"></canvas>
       </div>
       <figcaption><div><span id="field-caption">Interactive field</span></div><button id="motion-toggle" type="button" hidden aria-pressed="false">Pause</button></figcaption>
-      <p class="field-note">Move to attract. Hold to repel.</p>
+      <p class="field-note">Move to attract. Hold to unfold. Release a wave.</p>
     </figure>
     <div class="hero-foot"><span>PHYSICS × ENGINEERING</span><span>From a question to a working system.</span><span>EN / 日本語</span></div>
   </section>
@@ -152,18 +152,18 @@
     <div class="section-content">
       <div class="section-heading"><p class="eyebrow">START WITH THE PROBLEM</p><h2 id="contact-title">What are you<br> <em>trying to figure out?</em></h2><p>A rough description is enough. Tell me what you have, what you need, and where you’re stuck.</p></div>
       <div class="contact-layout">
-        <form id="contact-form" data-endpoint="" action="#contact" method="post" aria-describedby="form-status">
+        <form id="contact-form" data-endpoint="https://formspree.io/f/xoevjdrw" action="https://formspree.io/f/xoevjdrw" method="post" aria-describedby="form-status">
           <label for="problem">What problem are you working on? <span class="required">(required)</span></label>
           <textarea id="problem" name="message" rows="4" required maxlength="10000" placeholder="The question, the data, the obstacle…"></textarea>
           <label for="topic">Related area <span class="optional">(optional)</span></label><select id="topic" name="topic"><option value="">Choose a topic (optional)</option><option value="robotics">Robotics</option><option value="documents">Documents</option><option value="geospatial">Geospatial</option><option value="medical">Medical imaging</option><option value="simulation">Simulation & materials</option><option value="other">Something else</option></select>
           <label for="email">Your email <span class="required">(required)</span></label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@company.com">
           <label for="name">Name / company <span class="optional">(optional)</span></label><input id="name" name="name" autocomplete="organization" maxlength="200">
           <div class="submit-row"><button class="button primary" type="submit" disabled>Send your message <span aria-hidden="true">↗</span></button></div>
-          <p id="form-status" class="form-status" role="status" aria-live="polite">This form is not connected yet. Your message will not be sent.</p>
+          <p id="form-status" class="form-status" role="status" aria-live="polite">Enable JavaScript to send this form.</p>
           <noscript><p>JavaScript is required to enable this form after it is connected.</p></noscript>
         </form>
         <aside class="contact-aside"><h3>What happens next</h3><p>I read inquiries myself. We start with a conversation about the problem, then agree on a written proposal with a defined scope.</p><p>You don’t need a finished brief.<br> You do need a question.</p>
-          <div class="privacy-note" id="privacy"><h3>A note on privacy</h3><p id="privacy-offline">This preview does not send or save your form entries.</p><p id="privacy-connected" hidden>Your message and contact details are sent through Formspree to Matheus de Mello and used to respond to your inquiry and discuss potential work. <a href="https://formspree.io/legal/privacy/">Formspree privacy policy</a></p><p>Please leave out confidential documents, patient information, and credentials. We can agree on a suitable way to share data later.</p></div>
+          <div class="privacy-note" id="privacy"><h3>A note on privacy</h3><p id="privacy-offline">JavaScript is required to send this form. Nothing has been sent.</p><p id="privacy-connected" hidden>Your message and contact details are sent through Formspree to Matheus de Mello and used to respond to your inquiry and discuss potential work. <a href="https://formspree.io/legal/privacy/">Formspree privacy policy</a></p><p>Please leave out confidential documents, patient information, and credentials. We can agree on a suitable way to share data later.</p></div>
         </aside>
       </div>
     </div>

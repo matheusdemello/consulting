@@ -9,6 +9,8 @@ const { createServer } = require('./serve.cjs');
   let failures = 0;
   async function check(name, fn) {
     const context = await browser.newContext();
+    // Automated regression runs never submit to the real inbox.
+    await context.route('https://formspree.io/f/**', route => route.abort());
     const page = await context.newPage();
     page.setDefaultTimeout(4000);
     try { await fn(page, context); console.log('PASS', name); }
@@ -35,6 +37,10 @@ const { createServer } = require('./serve.cjs');
     });
     for (const lang of ['', 'jp/']) {
       await check(`${lang || 'en/'} disconnected form cannot send or pretend success`, async page => {
+        await page.route(base + lang, async route => {
+          const response = await route.fetch();
+          await route.fulfill({ response, body: (await response.text()).replace(/data-endpoint="[^"]*"/, 'data-endpoint=""') });
+        });
         const posts = [];
         page.on('request', r => { if (r.method() === 'POST') posts.push(r.url()); });
         await page.goto(base + lang);
@@ -115,12 +121,36 @@ const { createServer } = require('./serve.cjs');
       assert.notDeepEqual(samples[0], samples[1], 'Attraction must displace field strokes');
       assert.notDeepEqual(samples[1], samples[2], 'Repulsion must differ from attraction');
     });
+    await check('a deliberate release sends a wave; cancellation does not', async () => {
+      const frames = [];
+      for (const cancelled of [false, true]) {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+        try {
+          await page.clock.install({ time: new Date('2026-09-19T00:00:00Z') });
+          await page.clock.pauseAt(new Date('2026-09-19T00:00:01Z'));
+          await page.goto(base);
+          await page.evaluate(() => document.fonts.ready);
+          await page.clock.runFor(500);
+          const canvas = page.locator('canvas');
+          const box = await canvas.boundingBox();
+          await page.mouse.move(box.x + box.width * .65, box.y + box.height * .5);
+          await page.mouse.down();
+          await page.clock.runFor(800);
+          if (cancelled) await canvas.dispatchEvent('pointercancel');
+          await page.mouse.up();
+          await page.mouse.move(0, 0);
+          await page.clock.runFor(1200);
+          frames.push(await canvas.evaluate(c => c.toDataURL()));
+        } finally { await page.close(); }
+      }
+      assert.notEqual(frames[0], frames[1], 'Release must launch a visible ripple beyond spring recovery');
+    });
     for (const lang of ['', 'jp/']) {
       await check(`${lang || 'en/'} rejected submission keeps input; accepted retry clears it`, async page => {
         // All requests to this synthetic endpoint are intercepted. No message leaves the browser.
         await page.route(base + lang, async route => {
           const response = await route.fetch();
-          await route.fulfill({ response, body: (await response.text()).replace('data-endpoint=""', 'data-endpoint="https://formspree.io/f/testonly"') });
+          await route.fulfill({ response, body: (await response.text()).replace(/data-endpoint="[^"]*"/, 'data-endpoint="https://formspree.io/f/testonly"') });
         });
         let reject = true, posts = 0, payload;
         await page.route('https://formspree.io/f/testonly', async route => {
