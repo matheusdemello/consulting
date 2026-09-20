@@ -30,7 +30,7 @@ Manual checks: English/Japanese at desktop and phone sizes; keyboard focus; syst
 - Content: `index.html` and `jp/index.html`.
 - Layout and themes: `css/all.css`.
 - Topic selection, contact behavior and header: `js/site.js`.
-- Hero: `js/field.js`. A procedural, projected 3D field of moving directors; no object silhouettes or SVG targets. Moving the pointer attracts nearby directors; holding presses them away. `i/field-still.svg` provides the no-JavaScript fallback.
+- Hero: `js/field.js`. A procedural, projected 3D field of moving directors; no object silhouettes or SVG targets. Moving the pointer attracts nearby directors; holding presses them away. The field uses 5,400 strokes on larger canvases and 2,600 on narrow canvases, with a precomputed teal, vermilion and amber palette. `i/field-still.svg` provides the no-JavaScript fallback.
 - Existing portrait: `i/favicon.png`. New small site icon: `i/mark.svg`.
 
 The dipole-inspired animation is an illustration, not a research simulation. It pauses off-screen and in hidden tabs. Reduced motion uses a static frame. Fonts are requested from Google Fonts; system fallbacks preserve readability if unavailable. There are no analytics scripts.

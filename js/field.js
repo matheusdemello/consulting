@@ -16,9 +16,19 @@
   function palette() {
     const css = getComputedStyle(document.documentElement);
     colors = { ink: css.getPropertyValue('--ink').trim(), red: dark.matches ? '#e27e65' : '#ae3828' };
+    // Precompute smooth teal / vermilion / amber transitions, not per-frame RGB strings.
+    const stops = dark.matches
+      ? [[88, 175, 188], [237, 103, 79], [242, 184, 119]]
+      : [[24, 91, 104], [185, 53, 35], [175, 111, 39]];
+    colors.field = Array.from({length: 256}, (_, i) => {
+      const t = i / 255 * 2, segment = Math.min(1, Math.floor(t));
+      const blend = t - segment;
+      const rgb = stops[segment].map((v, c) => Math.round(v + (stops[segment + 1][c] - v) * blend));
+      return `rgb(${rgb.join(',')})`;
+    });
   }
   function layout() {
-    const count = width < 500 ? 1000 : 2100;
+    const count = width < 500 ? 2600 : 5400;
     particles = Array.from({length: count}, (_, i) => ({
       u: hash(i + 1), v: hash(i + 407), layer: hash(i + 1907),
       px: 0, py: 0, vx: 0, vy: 0
@@ -74,12 +84,13 @@
       const x = q.x + (still ? 0 : p.px), y = q.y + (still ? 0 : p.py);
       const depth = Math.max(0,Math.min(1,(q.z+1)/2));
       const domain = Math.sin(p.v*TAU + p.u*3 + time*.24);
-      const accent = domain > .24 || influence > .42;
-      const half = (1.45 + p.layer * 1.35) * q.perspective * (width < 500 ? .85 : 1);
+      const colorPhase = (domain + 1) * .5;
+      const colorIndex = Math.round(255 * (colorPhase + (.6 - colorPhase) * influence * .65));
+      const half = (1.15 + p.layer * 1.05) * q.perspective * (width < 500 ? .85 : 1);
       const edge = Math.max(0,Math.min(1,Math.min(x,y,width-x,height-y)/28));
-      ctx.globalAlpha = (.12 + depth*.67 + influence*.14) * edge;
-      ctx.strokeStyle = accent ? colors.red : colors.ink;
-      ctx.lineWidth = .65 + depth*.65;
+      ctx.globalAlpha = Math.min(1, (dark.matches ? .20 + depth*.72 : .12 + depth*.67) + influence*.14) * edge;
+      ctx.strokeStyle = colors.field[colorIndex];
+      ctx.lineWidth = .5 + depth*.52;
       ctx.beginPath();
       ctx.moveTo(x-Math.cos(angle)*half,y-Math.sin(angle)*half);
       ctx.lineTo(x+Math.cos(angle)*half,y+Math.sin(angle)*half);
