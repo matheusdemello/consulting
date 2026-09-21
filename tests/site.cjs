@@ -203,6 +203,78 @@ const { createServer } = require('./serve.cjs');
         }
       }
     });
+    // Search engines and link previews read the published address, not the test server.
+    const PUBLIC = 'https://matheusdemello.github.io/consulting/';
+    await check('search metadata is complete, consistent and keeps contact details private', async page => {
+      const cluster = { en: PUBLIC, ja: PUBLIC + 'jp/', 'x-default': PUBLIC };
+      for (const [lang, self] of [['', PUBLIC], ['jp/', PUBLIC + 'jp/']]) {
+        await page.goto(base + lang);
+        const meta = await page.evaluate(() => {
+          const prop = p => document.querySelector(`meta[property="${p}"], meta[name="${p}"]`)?.content;
+          return {
+            title: document.title,
+            canonical: document.querySelector('link[rel=canonical]')?.href,
+            alternates: Object.fromEntries([...document.querySelectorAll('link[rel=alternate][hreflang]')].map(l => [l.hreflang, l.href])),
+            ogUrl: prop('og:url'), image: prop('og:image'), imageAlt: prop('og:image:alt'),
+            imageSize: [prop('og:image:width'), prop('og:image:height')], siteName: prop('og:site_name'),
+            localeAlt: prop('og:locale:alternate'), card: prop('twitter:card'),
+            ld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => s.textContent)
+          };
+        });
+        assert.match(meta.title, lang ? /東京/ : /Tokyo/, 'the title carries the location people search with');
+        assert.ok(meta.title.includes('Matheus de Mello'));
+        assert.equal(meta.canonical, self);
+        assert.equal(meta.ogUrl, self, 'og:url must match the canonical');
+        assert.deepEqual(meta.alternates, cluster, 'hreflang must be reciprocal across both languages');
+        assert.ok(meta.siteName && meta.localeAlt && meta.imageAlt, 'site name, alternate locale and image alt are all set');
+        assert.equal(meta.card, 'summary_large_image');
+        assert.deepEqual(meta.imageSize, ['1200', '630']);
+        assert.ok(meta.image.startsWith(PUBLIC + 'i/'), 'og:image must be an absolute public URL');
+        const png = await (await page.request.get(meta.image.replace(PUBLIC, base))).body();
+        assert.equal(png.toString('ascii', 1, 4), 'PNG');
+        assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [1200, 630], 'the share image must be exactly the size it declares');
+
+        assert.equal(meta.ld.length, 1, 'one structured-data block per page');
+        const data = JSON.parse(meta.ld[0]);
+        const types = data['@graph'].map(node => node['@type']);
+        for (const type of ['Person', 'ProfessionalService', 'WebSite']) assert.ok(types.includes(type), `structured data needs a ${type}`);
+        // The site never publishes contact details; structured data is published too.
+        const keys = new Set();
+        (function walk(value) {
+          if (Array.isArray(value)) value.forEach(walk);
+          else if (value && typeof value === 'object') for (const [key, inner] of Object.entries(value)) { keys.add(key); walk(inner); }
+        })(data);
+        for (const key of ['email', 'telephone', 'faxNumber', 'streetAddress', 'postalCode']) assert.ok(!keys.has(key), `structured data must not carry ${key}`);
+        assert.doesNotMatch(meta.ld[0], /mailto:|@[a-z0-9-]+\.[a-z]{2,}|\+?\d[\d\s-]{7,}\d/i, 'no address or number that could be contact details');
+      }
+    });
+    await check('sitemap lists both languages as one hreflang cluster', async page => {
+      const response = await page.request.get(base + 'sitemap.xml');
+      assert.ok(response.ok());
+      const xml = await response.text();
+      await page.goto(base);
+      const urls = await page.evaluate(source => {
+        const doc = new DOMParser().parseFromString(source, 'application/xml');
+        if (doc.querySelector('parsererror')) return null;
+        return [...doc.getElementsByTagNameNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'url')].map(url => ({
+          loc: url.getElementsByTagNameNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'loc')[0].textContent.trim(),
+          alternates: Object.fromEntries([...url.getElementsByTagNameNS('http://www.w3.org/1999/xhtml', 'link')].map(l => [l.getAttribute('hreflang'), l.getAttribute('href')]))
+        }));
+      }, xml);
+      assert.ok(urls, 'sitemap must be well-formed XML');
+      assert.deepEqual(urls.map(url => url.loc), [PUBLIC, PUBLIC + 'jp/'], 'only the two real pages, never the redirect');
+      for (const url of urls) assert.deepEqual(url.alternates, { en: PUBLIC, ja: PUBLIC + 'jp/', 'x-default': PUBLIC });
+    });
+    await check('portrait stays within a sensible download budget', async page => {
+      await page.goto(base + '#about');
+      const image = page.locator('.portrait img');
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(img => img.decode());
+      const source = await image.evaluate(img => img.currentSrc);
+      const bytes = (await (await page.request.get(source)).body()).length;
+      assert.ok(bytes < 200 * 1024, `portrait is ${Math.round(bytes / 1024)}KB; it renders at most about 340x390`);
+      assert.ok(await image.evaluate(img => img.naturalWidth >= 2 * img.getBoundingClientRect().width), 'still sharp on a 2x screen');
+    });
   } finally { await browser.close(); server.close(); }
   process.exitCode = failures ? 1 : 0;
 })();
