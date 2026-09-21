@@ -14,38 +14,50 @@ const { createServer } = require('./serve.cjs');
       const page = await context.newPage();
       try {
         await page.goto(base + lang);
-        const stories = page.locator('.case-study');
-        assert.equal(await stories.count(), 5, 'all five projects need accessible detail');
-        for (const story of await stories.all()) {
-          const summary = story.locator('summary');
-          await summary.focus();
-          await page.keyboard.press('Enter');
-          assert.equal(await story.getAttribute('open'), '');
-          const figure = story.locator('.case-figure');
+        const picks = page.locator('.case-pick');
+        assert.equal(await picks.count(), 5, 'all five projects need a card in the rail');
+        assert.equal(await page.locator('.deck-arrow').first().isVisible(), false, 'arrows are an enhancement and stay hidden without JavaScript');
+        assert.ok(await page.locator('.deck-rail').evaluate(el => el.scrollWidth > el.clientWidth + 8), 'the rail must have somewhere to scroll');
+
+        for (let i = 0; i < 5; i++) {
+          if (i === 0) await picks.first().focus();
+          else {
+            await picks.nth(i - 1).focus();
+            await page.keyboard.press('ArrowRight');
+          }
+          assert.equal(await picks.nth(i).isChecked(), true, 'arrow keys move between projects');
+          const slug = await picks.nth(i).getAttribute('value');
+
+          const open = [];
+          for (const panel of await page.locator('.case-panel').all()) {
+            if (await panel.isVisible()) open.push(await panel.getAttribute('data-case'));
+          }
+          assert.deepEqual(open, [slug], `selecting a card should open only its own project`);
+
+          const figure = page.locator(`.case-panel[data-case="${slug}"] .case-figure`);
           if (!await figure.count()) {
-            assert.equal(await story.locator('..').locator('#case-robotics-title').count(), 1, 'robotics is the text-only case');
-            await summary.focus();
-            await page.keyboard.press('Enter');
-            assert.equal(await story.getAttribute('open'), null);
+            assert.equal(slug, 'robotics', 'robotics is the text-only case');
             continue;
           }
           const radios = figure.locator('input[type=radio]');
-          const first = radios.nth(0);
-          await first.focus();
-          for (let i = 0; i < 3; i++) {
-            if (i) await page.keyboard.press('ArrowRight');
-            assert.equal(await radios.nth(i).isChecked(), true);
-            assert.equal(await figure.locator(`.stage-caption[data-stage="${i}"]`).isVisible(), true);
-            assert.equal(await figure.locator(`.stage-caption[data-stage="${(i + 1) % 3}"]`).isVisible(), false, 'only the selected explanation should be visible');
-            assert.equal(await figure.locator(`.diagram-layer[data-stage="${i}"]`).evaluate(el => getComputedStyle(el).opacity), '1');
-            assert.equal(await figure.locator(`.diagram-layer[data-stage="${(i + 1) % 3}"]`).evaluate(el => getComputedStyle(el).opacity), '0');
+          await radios.nth(0).focus();
+          for (let stage = 0; stage < 3; stage++) {
+            if (stage) await page.keyboard.press('ArrowRight');
+            assert.equal(await radios.nth(stage).isChecked(), true);
+            assert.equal(await figure.locator(`.stage-caption[data-stage="${stage}"]`).isVisible(), true);
+            assert.equal(await figure.locator(`.stage-caption[data-stage="${(stage + 1) % 3}"]`).isVisible(), false, 'only the selected explanation should be visible');
+            assert.equal(await figure.locator(`.diagram-layer[data-stage="${stage}"]`).evaluate(el => getComputedStyle(el).opacity), '1');
+            assert.equal(await figure.locator(`.diagram-layer[data-stage="${(stage + 1) % 3}"]`).evaluate(el => getComputedStyle(el).opacity), '0');
           }
-          assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'expanded project must fit a narrow viewport');
-          await summary.focus();
-          await page.keyboard.press('Enter');
-          assert.equal(await story.getAttribute('open'), null);
+          assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'an open project must fit a narrow viewport');
         }
-        console.log(`PASS ${lang || 'en/'} all projects expand and diagrams switch with keyboard, without JavaScript`);
+        // The dots are the pointer-only route to a project sitting off the rail.
+        await page.locator('.deck-dot').nth(1).click();
+        assert.equal(await picks.nth(1).isChecked(), true, 'a dot must select its project without JavaScript');
+        assert.equal(await page.locator('.case-panel[data-case="documents"]').isVisible(), true);
+        assert.equal(await page.locator('.case-panel[data-case="simulation"]').isVisible(), false);
+
+        console.log(`PASS ${lang || 'en/'} the rail selects every project and diagrams switch with keyboard, without JavaScript`);
       } catch (e) { failed = true; console.error('FAIL', lang || 'en/', e.message); }
       finally { await context.close(); }
     }

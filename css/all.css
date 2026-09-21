@@ -81,10 +81,9 @@ h1 { font-size: clamp(76px, 8.8vw, 142px); line-height: .92; }
 .section-heading .eyebrow, .about-copy > .eyebrow { margin-bottom: 22px; color: var(--muted); }
 h2 { font-size: clamp(42px, 4.7vw, 72px); }
 .section-heading > p:last-child { max-width: 540px; margin-top: 25px; color: var(--muted); font-size: 15px; }
-.problem-row { border-top: 1px solid var(--rule); display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 25px; align-items: start; padding: 38px 0; }
-.row-index { align-self: start; padding-top: 5px; font-size: 10px; color: var(--muted); }
-.problem-copy .eyebrow { color: var(--muted); font-size: 9px; }
-.problem-copy h3 { font-family: var(--serif); font-size: clamp(25px, 2.35vw, 34px); line-height: 1.2; letter-spacing: -.025em; margin-top: 10px; }
+.card-index { font-size: 10px; color: var(--muted); }
+.case-card .eyebrow { color: var(--muted); font-size: 9px; }
+.case-card h3 { font-family: var(--serif); font-size: clamp(21px, 1.6vw, 26px); line-height: 1.2; letter-spacing: -.025em; margin-top: 9px; }
 .problem-copy p { margin-top: 15px; max-width: 640px; font-size: 14px; color: var(--muted); line-height: 1.85; }
 .case-details { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; margin: 27px 0 0; }
 .case-details dt { font-size: 9px; font-weight: 500; letter-spacing: .11em; text-transform: uppercase; }
@@ -133,10 +132,10 @@ option { background: var(--paper); color: var(--ink); }
 .site-footer > a { font-family: var(--serif); font-size: 18px; }
 .site-footer > span { color: var(--muted); }
 .site-footer > div { display: flex; gap: 28px; }
-html[lang='ja'] h1, html[lang='ja'] h2, html[lang='ja'] .problem-copy h3, html[lang='ja'] .approach-list h3 { font-family: var(--sans); font-weight: 400; letter-spacing: -.04em; line-height: 1.4; }
+html[lang='ja'] h1, html[lang='ja'] h2, html[lang='ja'] .case-card h3, html[lang='ja'] .approach-list h3 { font-family: var(--sans); font-weight: 400; letter-spacing: -.04em; line-height: 1.4; }
 html[lang='ja'] h1 { font-size: clamp(48px, 5.4vw, 82px); }
 html[lang='ja'] h2 { font-size: clamp(30px, 3.15vw, 47px); }
-html[lang='ja'] .problem-copy h3 { font-size: clamp(20px, 1.9vw, 27px); }
+html[lang='ja'] .case-card h3 { font-size: clamp(17px, 1.3vw, 21px); }
 html[lang='ja'] .approach-list h3 { font-size: 26px; }
 html[lang='ja'] .eyebrow { letter-spacing: .1em; }
 @media (min-width: 1500px) { .hero-intro { padding-left: 55px; } }
@@ -144,7 +143,6 @@ html[lang='ja'] .eyebrow { letter-spacing: .1em; }
   .site-header nav { gap: 22px; }
   .hero-intro { padding-left: 0; }
   .hero-description { font-size: 15px; }
-  .problem-row { grid-template-columns: 30px minmax(0,1fr); gap: 18px; }
   .about-layout { gap: 30px; }
   .contact-layout { gap: 36px; }
 }
@@ -184,11 +182,10 @@ html[lang='ja'] .eyebrow { letter-spacing: .1em; }
   .section-heading .eyebrow { font-size: 9px; margin-bottom: 20px; }
   h2 { font-size: clamp(38px, 8.3vw, 58px); }
   .section-heading > p:last-child { font-size: 14px; margin-top: 22px; }
-  .problem-row { grid-template-columns: 21px minmax(0,1fr); gap: 16px; padding: 29px 0; }
-  .row-index { font-size: 9px; padding-top: 0; }
-  .problem-copy .eyebrow { font-size: 8px; letter-spacing: .09em; }
-  .problem-copy h3 { font-size: 25px; line-height: 1.15; }
-  .problem-copy h3 br { display: none; }
+  .card-index { font-size: 9px; }
+  .case-card .eyebrow { font-size: 8px; letter-spacing: .09em; }
+  .case-card h3 { font-size: 23px; line-height: 1.15; }
+  .case-card h3 br { display: none; }
   .problem-copy p { font-size: 13px; line-height: 1.8; margin-top: 12px; }
   .case-details { grid-template-columns: 1fr; gap: 20px; margin-top: 22px; }
   .case-details > div:last-child { border-left: 0; padding-left: 0; }
@@ -216,7 +213,7 @@ html[lang='ja'] .eyebrow { letter-spacing: .1em; }
   .site-footer > div { gap: 18px; }
   html[lang='ja'] h1 { font-size: clamp(43px, 9vw, 62px); }
   html[lang='ja'] h2 { font-size: clamp(28px, 6vw, 39px); }
-  html[lang='ja'] .problem-copy h3 { font-size: 19px; }
+  html[lang='ja'] .case-card h3 { font-size: 18px; }
   input, select, textarea { font-size: 16px; }
 }
 @media (prefers-color-scheme: dark) {

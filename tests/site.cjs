@@ -90,6 +90,18 @@ const { createServer } = require('./serve.cjs');
       await page.waitForURL(base + '#problems');
       assert.equal(await page.locator('#problems').count(), 1);
     });
+    await check('a link to one project opens it and scrolls there', async page => {
+      await page.goto(base + '#work-medical');
+      await page.waitForTimeout(400);
+      assert.equal(await page.locator('.case-pick:checked').inputValue(), 'medical');
+      const panel = page.locator('.case-panel[data-case="medical"]');
+      assert.equal(await panel.isVisible(), true);
+      // The fragment resolves while the panel is still hidden, so the scroll is
+      // the script's job; it must clear the fixed header when it lands.
+      const header = await page.locator('.site-header').evaluate(el => el.getBoundingClientRect().height);
+      const top = await panel.evaluate(el => el.getBoundingClientRect().top);
+      assert.ok(top >= header - 1 && top < 400, `panel landed at ${top} behind a ${header} header`);
+    });
     await check('field stops drawing off-screen and resumes on return', async page => {
       await page.goto(base);
       await page.evaluate(() => scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));

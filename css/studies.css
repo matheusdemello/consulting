@@ -9,22 +9,46 @@
 .service-list h3 { font-family: var(--serif); font-size: 27px; line-height: 1.2; letter-spacing: -.025em; max-width: 280px; }
 .service-list p { color: var(--muted); font-size: 13px; margin-top: 16px; }
 .service-list span { display: block; font-size: 10px; margin-top: 22px; }
-.problem-row { padding-top: 43px; padding-bottom: 43px; }
+/* Selected work reads as a rail of project cards with the chosen project's
+   detail open below it. A radio group carries the selection, so the deck works
+   without JavaScript; the arrows are an enhancement js/site.js switches on. */
+.work-deck { min-width: 0; }
+.deck-picker { border: 0; min-width: 0; margin: 0; padding: 0; }
+.deck-rail { position: relative; display: flex; gap: 18px; padding: 6px 0 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+.deck-rail::-webkit-scrollbar { display: none; }
+/* js/site.js marks which ends still have cards behind them, so the card that is
+   only half in view reads as more to come rather than as a broken edge. */
+.deck-rail[data-edge='end'] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 80px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 80px), transparent); }
+.deck-rail[data-edge='start'] { -webkit-mask-image: linear-gradient(to right, transparent, #000 60px); mask-image: linear-gradient(to right, transparent, #000 60px); }
+.deck-rail[data-edge='both'] { -webkit-mask-image: linear-gradient(to right, transparent, #000 60px, #000 calc(100% - 80px), transparent); mask-image: linear-gradient(to right, transparent, #000 60px, #000 calc(100% - 80px), transparent); }
+.case-card { position: relative; flex: 0 0 min(300px, 78vw); display: flex; flex-direction: column; scroll-snap-align: start; border-top: 1px solid var(--rule); padding-top: 19px; transition: border-color 150ms; }
+.case-card:hover { border-top-color: var(--ink); }
+.case-pick { position: absolute; top: 0; left: 0; width: 1px; height: 1px; margin: 0; padding: 0; opacity: 0; }
+.case-card label { display: inline; margin: 0; font: inherit; cursor: pointer; }
+.case-card label::after { content: ''; position: absolute; inset: 0; }
+.card-index { font-variant-numeric: tabular-nums; }
+.card-outcome { margin-top: auto; padding-top: 22px; }
+.card-outcome .eyebrow { display: block; font-size: 8px; color: var(--muted); }
+.card-outcome p { margin-top: 8px; padding-left: 13px; border-left: 2px solid var(--rule); font-size: 13px; line-height: 1.7; color: var(--muted); transition: border-color 150ms, color 150ms; }
+.deck-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 34px; margin-top: 16px; }
+.deck-dots { display: flex; align-items: center; gap: 4px; margin-left: -5px; }
+.deck-dot { display: flex; align-items: center; width: 34px; height: 34px; margin: 0; padding: 0 5px; font: inherit; cursor: pointer; }
+.deck-dot::before { content: ''; display: block; width: 100%; height: 1px; background: var(--rule); transition: background-color 150ms; }
+.deck-dot:hover::before { background: var(--ink); }
+.deck-arrows { display: flex; gap: 9px; }
+.deck-arrow { width: 40px; height: 34px; display: inline-flex; align-items: center; justify-content: center; padding: 0; background: transparent; color: var(--ink); border: 1px solid var(--rule); font-size: 15px; transition: border-color 150ms, color 150ms; }
+.deck-arrow:hover:not(:disabled) { border-color: var(--ink); }
+.deck-arrow:disabled { color: var(--muted); opacity: .4; }
+.deck-panels { margin-top: 30px; border-top: 1px solid var(--rule); }
+.case-panel { padding-top: 24px; }
+.panel-head { display: flex; align-items: baseline; gap: 15px; font-size: 9px; font-weight: 500; letter-spacing: .16em; line-height: 1.6; text-transform: uppercase; color: var(--muted); }
+.panel-head span:first-child { color: var(--accent); font-variant-numeric: tabular-nums; }
 .problem-copy .case-problem { font-size: 15px; max-width: 660px; }
-.case-outcome { border-left: 2px solid var(--accent); padding-left: 20px; margin: 25px 0 26px; max-width: 720px; }
-.case-outcome p { color: var(--ink); margin-top: 7px; font-size: 15px; }
-.case-study { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-.case-study summary { display: flex; justify-content: space-between; align-items: center; cursor: pointer; list-style: none; min-height: 56px; font-size: 11px; padding: 12px 0; }
-.case-study summary::-webkit-details-marker { display: none; }
-.case-study summary:hover { color: var(--accent); }
-.case-study summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-.disclosure-mark { font: 23px/1 var(--sans); font-weight: 400; transition: transform 180ms; }
-.case-study[open] .disclosure-mark { transform: rotate(45deg); }
-.case-body { padding: 5px 0 28px; }
+.case-body { margin-top: 26px; padding-bottom: 6px; }
 .case-figure { --diagram-teal: #2b747d; --diagram-red: #ab3d2c; --diagram-amber: #a56e25; border: 1px solid var(--rule); background: color-mix(in srgb, var(--ink) 2%, var(--paper)); padding: 20px 22px 18px; }
 .figure-heading { display: flex; justify-content: space-between; gap: 12px; font-size: 9px; letter-spacing: .06em; color: var(--muted); }
 .figure-heading > span:first-child { color: var(--ink); }
-.case-diagram { display: block; width: 100%; height: auto; overflow: hidden; }
+.case-diagram { display: block; width: 100%; max-width: 790px; height: auto; margin-inline: auto; overflow: hidden; }
 .case-diagram path, .case-diagram .outline, .case-diagram rect { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
 .case-diagram circle:not(.outline) { fill: currentColor; }
 .case-diagram .soft-fill { fill: currentColor; opacity: .08; }
@@ -59,6 +83,23 @@
   .case-figure:has(input[value="1"]:checked) .stage-caption[data-stage="1"],
   .case-figure:has(input[value="2"]:checked) .stage-caption[data-stage="2"] { display: block; }
 }
+@supports selector(:has(*)) {
+  .case-card:has(.case-pick:checked) { border-top-color: var(--accent); }
+  .case-card:has(.case-pick:checked) .card-index { color: var(--accent); }
+  .case-card:has(.case-pick:checked) .card-outcome p { border-left-color: var(--accent); color: var(--ink); }
+  .case-card:has(.case-pick:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .deck-panels > .case-panel { display: none; }
+  .work-deck:has(.case-pick[value="robotics"]:checked) .case-panel[data-case="robotics"],
+  .work-deck:has(.case-pick[value="documents"]:checked) .case-panel[data-case="documents"],
+  .work-deck:has(.case-pick[value="geospatial"]:checked) .case-panel[data-case="geospatial"],
+  .work-deck:has(.case-pick[value="medical"]:checked) .case-panel[data-case="medical"],
+  .work-deck:has(.case-pick[value="simulation"]:checked) .case-panel[data-case="simulation"] { display: block; }
+  .work-deck:has(.deck-rail > .case-card:nth-child(1) .case-pick:checked) .deck-dot:nth-child(1)::before,
+  .work-deck:has(.deck-rail > .case-card:nth-child(2) .case-pick:checked) .deck-dot:nth-child(2)::before,
+  .work-deck:has(.deck-rail > .case-card:nth-child(3) .case-pick:checked) .deck-dot:nth-child(3)::before,
+  .work-deck:has(.deck-rail > .case-card:nth-child(4) .case-pick:checked) .deck-dot:nth-child(4)::before,
+  .work-deck:has(.deck-rail > .case-card:nth-child(5) .case-pick:checked) .deck-dot:nth-child(5)::before { background: var(--accent); height: 2px; }
+}
 .case-narrative { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 35px; margin-top: 32px; }
 .case-narrative h4 { font-size: 12px; font-weight: 500; }
 .case-narrative p { font-size: 13px; margin-top: 10px; }
@@ -80,10 +121,11 @@ html[lang='ja'] .service-list h3 { font-family: var(--sans); font-size: 21px; li
   .service-list li { padding-top: 20px; }
   .service-list h3 { max-width: none; font-size: 27px; }
   .service-list span { margin-top: 14px; }
-  .problem-row { grid-template-columns: 1fr; gap: 14px; padding-block: 34px; }
-  .problem-copy h3 { font-size: 28px; line-height: 1.15; }
-  .problem-copy .case-problem, .case-outcome p { font-size: 14px; }
-  .case-outcome { padding-left: 15px; }
+  .deck-rail { gap: 14px; }
+  .case-card { flex-basis: 82vw; }
+  .card-outcome { padding-top: 18px; }
+  .deck-panels { margin-top: 24px; }
+  .problem-copy .case-problem { font-size: 14px; }
   .case-figure { padding: 15px 12px; }
   .figure-heading { font-size: 8px; flex-wrap: wrap; gap: 5px 12px; }
   .stage-pick { gap: 5px; padding-top: 10px; }
@@ -94,4 +136,4 @@ html[lang='ja'] .service-list h3 { font-family: var(--sans); font-size: 21px; li
 @media (prefers-color-scheme: dark) {
   .case-figure { --diagram-teal: #72b3ba; --diagram-red: #e89074; --diagram-amber: #d9b278; }
 }
-@media (prefers-reduced-motion: reduce) { .diagram-layer, .disclosure-mark { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .diagram-layer { transition: none; } .deck-rail { scroll-behavior: auto; } }

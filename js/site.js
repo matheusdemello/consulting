@@ -7,6 +7,57 @@
     new IntersectionObserver(([entry]) => header.classList.toggle('scrolled', !entry.isIntersecting), { rootMargin: '-80px 0px 0px' }).observe(hero);
   } else header.classList.add('scrolled');
 
+  // Selected work. The rail scrolls and the radio group selects a project
+  // without any of this; the arrows and the deep link are enhancements.
+  // Everything below this block depends on the deck's markup being there, so it
+  // stays inert rather than throwing if the section is ever absent or empty.
+  const deck = document.querySelector('.work-deck');
+  const rail = deck && deck.querySelector('.deck-rail');
+  const picks = rail ? [...rail.querySelectorAll('.case-pick')] : [];
+  if (picks.length) {
+    const arrows = [...deck.querySelectorAll('.deck-arrow')];
+    const still = matchMedia('(prefers-reduced-motion: reduce)');
+    const selected = () => Math.max(0, picks.findIndex(pick => pick.checked));
+    const edges = () => {
+      const room = rail.scrollWidth - rail.clientWidth;
+      if (room < 8) { rail.removeAttribute('data-edge'); return; }
+      const behind = rail.scrollLeft > 8;
+      const ahead = rail.scrollLeft < room - 8;
+      rail.dataset.edge = behind && ahead ? 'both' : behind ? 'start' : 'end';
+    };
+    const reveal = position => {
+      const view = rail.getBoundingClientRect();
+      const card = picks[position].closest('.case-card').getBoundingClientRect();
+      // Leave a card that is already in full view where it is; nudging it would
+      // shift everything else under a pointer that is about to click again.
+      if (card.left < view.left - 1 || card.right > view.right + 1) {
+        rail.scrollTo({ left: rail.scrollLeft + card.left - view.left, behavior: still.matches ? 'auto' : 'smooth' });
+      }
+      arrows.forEach(arrow => { arrow.disabled = arrow.dataset.deck === 'prev' ? position === 0 : position === picks.length - 1; });
+    };
+    picks.forEach((pick, position) => pick.addEventListener('change', () => { if (pick.checked) reveal(position); }));
+    arrows.forEach(arrow => {
+      arrow.hidden = false;
+      arrow.addEventListener('click', () => {
+        const next = selected() + (arrow.dataset.deck === 'prev' ? -1 : 1);
+        if (next < 0 || next >= picks.length) return;
+        picks[next].checked = true;
+        reveal(next);
+      });
+    });
+    rail.addEventListener('scroll', edges, { passive: true });
+    addEventListener('resize', edges);
+    const linked = picks.findIndex(pick => location.hash === `#work-${pick.value}`);
+    if (linked > -1) {
+      picks[linked].checked = true;
+      // The panel was still hidden when the browser resolved the fragment, so it
+      // had nothing to scroll to. Now that selecting has revealed it, go there.
+      deck.querySelector(`.case-panel[data-case="${picks[linked].value}"]`).scrollIntoView();
+    }
+    reveal(selected());
+    edges();
+  }
+
   const form = document.querySelector('#contact-form');
   const topic = document.querySelector('#topic');
   document.querySelectorAll('[data-topic]').forEach(link => link.addEventListener('click', () => {
